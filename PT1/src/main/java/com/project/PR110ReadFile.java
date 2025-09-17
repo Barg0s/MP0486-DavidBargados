@@ -8,7 +8,7 @@ import java.util.List;
 
 public class PR110ReadFile {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) { // mvn -Dtest=PR110ReadFileTest#testLlegirIMostrarFitxer test
         String camiFitxer = System.getProperty("user.dir") + "/data/GestioTasques.java";
         llegirIMostrarFitxer(camiFitxer);  // Només cridem a la funció amb la ruta del fitxer
     }
@@ -25,9 +25,8 @@ public class PR110ReadFile {
     }
 
     public static void mostrarLinies(List<String> l){
-        System.out.println("Fitxer GestioTasques:");
         for (int i = 0; i < l.size();i++){
-            System.out.println(i + ":" + l.get(i));
+            System.out.println(i + 1 + ": " + l.get(i));
         }
     }
 }
