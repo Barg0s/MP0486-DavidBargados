@@ -13,6 +13,8 @@
     </properties>
 
     <build>
+    <sourceDirectory>PT1/src/main/java</sourceDirectory> <!--para windows(si no va en linux la borro)-->
+
         <plugins>
             <!-- Maven Compiler Plugin -->
             <plugin>

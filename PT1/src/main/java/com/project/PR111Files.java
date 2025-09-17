@@ -12,7 +12,9 @@ public class PR111Files {
     }
 
     public static void gestionarArxius(String camiFitxer) {
+
         try {
+
             Files.createDirectories(Path.of(camiFitxer));
             System.out.println("carpeta: creada a" + camiFitxer);
 
