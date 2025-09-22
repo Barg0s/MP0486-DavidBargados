@@ -10,36 +10,52 @@ public class PR111Files {
 
     public static void main(String[] args) {
 
-        String camiFitxer = System.getProperty("user.dir") + "/data/pr111/myFiles";
+        String camiFitxer = System.getProperty("user.dir") + "/data/pr111";
         gestionarArxius(camiFitxer);
     }
 
-    public static void gestionarArxius(String camiFitxer) {
-        String fitxer = camiFitxer + "/file1.txt";
+public static void gestionarArxius(String camiFitxer) {
+    
+    try {
+        Files.createDirectories(Path.of(camiFitxer + "/myFiles"));
+        System.out.println("carpeta: creada a " + camiFitxer);
 
-        try {
-            Files.createDirectories(Path.of(camiFitxer));
-            System.out.println("carpeta: creada a" + camiFitxer);
-            escriureFitxer(fitxer);
-            fitxer = camiFitxer + "/file2.txt";
-            escriureFitxer(fitxer);
-            renombrarFitxer(camiFitxer);
-            MostrarContingut(camiFitxer);
-        } catch (IOException e) {
-            System.out.println("Error en la creació de la carpeta: " + camiFitxer);
-            e.printStackTrace();
-        }
+        String rutamyFiles = camiFitxer + "/myFiles";
+
+        String fitxer1 = rutamyFiles + "/file1.txt";
+        String fitxer2 = rutamyFiles + "/file2.txt";
+
+
+
+        escriureFitxer(fitxer1);
+
+        escriureFitxer(fitxer2);
+
+        renombrarFitxer(rutamyFiles);
+
+        MostrarContingut(rutamyFiles);
+
+        EliminarArxiu(fitxer1);
+
+        MostrarContingut(rutamyFiles);
+
+    } catch (IOException e) {
+        System.out.println("Error en la creació de la carpeta: " + camiFitxer);
+       
     }
+}
+
+
+    
         public static void escriureFitxer(String camiFitxer) throws IOException {
             try {
                 Files.createFile(Path.of(camiFitxer));
                 
             } catch (IOException e) {
             System.out.println("Error en la creació del fitxer a : " + camiFitxer);
-            e.printStackTrace();
                     }
     }
-    public  static  void renombrarFitxer(String camiFitxer) throws  IOException{
+    public  static  void renombrarFitxer(String camiFitxer) throws IOException{
         String origen = camiFitxer + "/file2.txt";
 
         String target = camiFitxer + "/renamedFile.txt";
@@ -47,20 +63,29 @@ public class PR111Files {
             Files.move(Path.of(origen), Path.of(target), StandardCopyOption.REPLACE_EXISTING); //https://stackoverflow.com/questions/53004799/how-to-rename-file-java-nio
         } catch (Exception e) {
             System.out.println("Error en la creació del fitxer a : " + camiFitxer);
-            e.printStackTrace();
 
         }
     }
 
     public static void MostrarContingut(String camiFitxer) throws  IOException{ //https://www.javacodegeeks.com/2014/06/listing-and-filtering-directory-contents-in-nio-2.html
+        System.out.println("Els arxius de la carpeta son");
         try (DirectoryStream<Path> stream = Files.newDirectoryStream(Path.of(camiFitxer))){
             for (Path p : stream){
                 System.out.println(p);
             }
     } catch (IOException e) {
-        throw new RuntimeException(e);
+            System.out.println("Error al mostrar el contingut");
     }
 
+    }
+
+
+    public static void EliminarArxiu(String camiFitxer) throws IOException{
+        try {
+            Files.delete(Path.of(camiFitxer));
+        } catch (IOException e) {
+            System.out.println("Error al eliminar el fitxer");
+        }
     }
 
 }
