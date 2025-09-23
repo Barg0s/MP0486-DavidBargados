@@ -10,12 +10,11 @@ public class PR111Files {
 
     public static void main(String[] args) {
 
-        String camiFitxer = System.getProperty("user.dir") + "/data/pr111";
+        String camiFitxer = System.getProperty("user.dir") + "/data";
         gestionarArxius(camiFitxer);
     }
 
 public static void gestionarArxius(String camiFitxer) {
-    
     try {
         Files.createDirectories(Path.of(camiFitxer + "/myFiles"));
         System.out.println("carpeta: creada a " + camiFitxer);

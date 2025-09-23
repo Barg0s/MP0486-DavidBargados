@@ -1,5 +1,9 @@
 package com.project;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+
 public class PR115cp {
 
     public static void main(String[] args) {
@@ -20,5 +24,22 @@ public class PR115cp {
 
     // Mètode per copiar un arxiu de text de l'origen al destí
     public static void copiarArxiu(String rutaOrigen, String rutaDesti) {
+
+        if (!Files.exists(Path.of(rutaOrigen))){
+            System.out.println("L'arxiu no d'origen no existeix");
+
+        }
+        if (Files.exists(Path.of(rutaOrigen))){
+            try {
+                if (Files.exists(Path.of(rutaDesti))){
+                    System.out.println("L'arxiu de destí ja existeix,es sobreesciurà");
+                }
+                Files.copy(Path.of(rutaOrigen), Path.of(rutaDesti));
+                   
+            } catch (IOException e) {
+                // TODO: handle exception
+            }
+        }
+
     }
 }

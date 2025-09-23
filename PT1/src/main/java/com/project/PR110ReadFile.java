@@ -14,7 +14,7 @@ public class PR110ReadFile {
     }
 
     // Funció que llegeix el fitxer i mostra les línies amb numeració
-    public static void llegirIMostrarFitxer(String camiFitxer) {
+    public static void llegirIMostrarFitxer(String camiFitxer) { //mvn -Dtest=PR113FilesTest test
         try {
             List<String> linies = Files.readAllLines(Paths.get(camiFitxer), StandardCharsets.UTF_8);
             mostrarLinies(linies);
