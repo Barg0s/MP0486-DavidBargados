@@ -35,9 +35,11 @@ public class PR115cp {
                     System.out.println("L'arxiu de destí ja existeix,es sobreesciurà");
                 }
                 Files.copy(Path.of(rutaOrigen), Path.of(rutaDesti));
+                System.out.println("la copia s'ha fet correctament");
                    
             } catch (IOException e) {
-                // TODO: handle exception
+                System.out.println("la copia ha fallat");
+                e.printStackTrace();
             }
         }
 
