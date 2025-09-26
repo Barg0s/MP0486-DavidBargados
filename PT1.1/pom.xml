@@ -3,8 +3,8 @@
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>com.example</groupId>
-    <artifactId>project-name</artifactId>
+    <groupId>com.project</groupId>
+    <artifactId>ams2-m0486-pr11-base</artifactId>
     <version>1.0.0</version>
 
     <properties>

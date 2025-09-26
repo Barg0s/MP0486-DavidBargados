@@ -19,20 +19,13 @@ public class PR113append {
 
         try (FileWriter fw = new FileWriter(camiFitxer,true)){
             for (String f : frases){
-                fw.write(f);
-                fw.write("\n");
+                fw.write(f + "\n");
 
             }
             } catch (IOException e) {
                 System.out.println("error al escriure el fitxer");
             }
-    
-    
 
     }
-   
-   
-
-
 
 }
