@@ -10,7 +10,8 @@ public class PR114linies {
 
     public static void main(String[] args) {
         // Definir el camí del fitxer dins del directori "data"
-        String camiFitxer = System.getProperty("user.dir") + "/data/numeros.txt";
+        String camiBase = System.getProperty("user.dir") + "/data/";
+        String camiFitxer = camiBase + "numeros.txt";
 
         // Crida al mètode que genera i escriu els números aleatoris
         generarNumerosAleatoris(camiFitxer);

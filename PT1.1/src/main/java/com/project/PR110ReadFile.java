@@ -9,7 +9,9 @@ import java.util.List;
 public class PR110ReadFile {
 
     public static void main(String[] args) { // mvn -Dtest=PR110ReadFileTest#testLlegirIMostrarFitxer test
-        String camiFitxer = System.getProperty("user.dir") + "/data/GestioTasques.java";
+        String camiBase = System.getProperty("user.dir") + "/data/";
+
+        String camiFitxer = camiBase + "GestioTasques.java";
         llegirIMostrarFitxer(camiFitxer);  // Només cridem a la funció amb la ruta del fitxer
     }
 

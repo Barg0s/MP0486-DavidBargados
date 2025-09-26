@@ -26,7 +26,7 @@ public class PR115cp {
     public static void copiarArxiu(String rutaOrigen, String rutaDesti) {
 
         if (!Files.exists(Path.of(rutaOrigen))){
-            System.out.println("L'arxiu no d'origen no existeix");
+            System.out.println("L'arxiu d'origen no existeix");
 
         }
         if (Files.exists(Path.of(rutaOrigen))){

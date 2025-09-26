@@ -7,7 +7,8 @@ public class PR113append {
 
     public static void main(String[] args) {
         // Definir el camí del fitxer dins del directori "data"
-        String camiFitxer = System.getProperty("user.dir") + "/data/frasesMatrix.txt";
+        String camiBase = System.getProperty("user.dir") + "/data/";
+        String camiFitxer = camiBase + "frasesMatrix.txt";
 
         // Crida al mètode que afegeix les frases al fitxer
         afegirFrases(camiFitxer);
