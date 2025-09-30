@@ -2,6 +2,7 @@ package com.project;
 
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
+import java.io.EOFException;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.IOException;
@@ -53,7 +54,7 @@ public static void escriurePersones(HashMap<String, Integer> persones) throws IO
             dos.flush();
 
     } catch (IOException e) {
-        throw new IOFitxerExcepcio("Error al escriure el fitxer");
+        throw new IOFitxerExcepcio("Error en escriure les persones al fitxer", e);
     }}
 
     // Mètode per llegir les persones des del fitxer
@@ -61,15 +62,23 @@ public static void escriurePersones(HashMap<String, Integer> persones) throws IO
         // *************** CODI PRÀCTICA **********************/
         try(FileInputStream fis = new FileInputStream(filePath)) {
             DataInputStream dis = new DataInputStream(fis);
-            String nom = dis.readUTF();
-            int edat = dis.readInt();
-            System.out.println("Nom: " + nom);
-            System.out.println("edat: " + edat);
+            while (true) { 
+                try{
+                String nom = dis.readUTF();
+                int edat = dis.readInt();
 
-            
+                System.out.println(nom + ": " + edat + " anys");
+                         } catch (EOFException e) {
+                break; 
+            }   
+            }
+
+
+         
+
         } catch (IOException e) {
-        throw new IOFitxerExcepcio("Error al llegir el fitxer");
-        }
+        throw new IOFitxerExcepcio("Error en llegir les persones del fitxer", e);
+            }
 
 }
 }
