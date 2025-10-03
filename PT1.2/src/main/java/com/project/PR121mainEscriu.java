@@ -40,9 +40,9 @@ public class PR121mainEscriu {
         try (FileOutputStream fos = new FileOutputStream(filePath);
             ObjectOutputStream oos = new ObjectOutputStream(fos)){
             oos.writeObject(hashMap);
-        } catch (Exception e) {
-            System.err.println("Error al serialitzar l'objecte.");        }
-
+    } catch (Exception e) {
+        throw new IOFitxerExcepcio("Error al serialitzar l'objecte", e);
     }
+}
     
 }

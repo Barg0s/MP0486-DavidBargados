@@ -1,8 +1,9 @@
 package com.project;
 
 import java.io.FileInputStream;
+import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.io.ObjectInputStream;
-import java.util.HashMap;
 
 import com.project.excepcions.IOFitxerExcepcio;
 import com.project.objectes.PR121hashmap;
@@ -18,18 +19,22 @@ public class PR121mainLlegeix {
             System.err.println("Error al llegir l'arxiu: " + e.getMessage());
         }
     }
+public static PR121hashmap deserialitzarHashMap() throws IOFitxerExcepcio {
+    PR121hashmap hm = new PR121hashmap();
+    try (FileInputStream fis = new FileInputStream(filePath);
+         ObjectInputStream ois = new ObjectInputStream(fis)) {
+            hm = (PR121hashmap) ois.readObject();
 
-    public static PR121hashmap deserialitzarHashMap() throws IOFitxerExcepcio {
-        // *************** CODI PRÀCTICA **********************/
-        PR121hashmap pr121hashmap = null;
-        try (FileInputStream fis = new FileInputStream(filePath);
-            ObjectInputStream ois = new ObjectInputStream(fis)){
-            HashMap<String, Integer> hm = pr121hashmap.getPersones();
-            pr121hashmap = (PR121hashmap) ois.readObject();
-        } catch (Exception e) {
-            System.err.println("Error al serialitzar l'objecte.");        }
-            return new PR121hashmap();
+        return hm;
+
+    } catch (FileNotFoundException e) {
+        throw new IOFitxerExcepcio("Error en deserialitzar l'objecte HashMap: fitxer no trobat", e);
+    } catch (IOException | ClassNotFoundException e) {
+        throw new IOFitxerExcepcio("Error en deserialitzar l'objecte HashMap", e);
     }
+}
+
+
 
     // Getter
     public static String getFilePath() {
