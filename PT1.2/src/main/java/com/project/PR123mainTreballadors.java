@@ -59,6 +59,9 @@ public class PR123mainTreballadors {
     // Mètode per mostrar els treballadors llegint el fitxer CSV
     public void mostrarTreballadors() throws IOFitxerExcepcio {
         // *************** CODI PRÀCTICA **********************/
+        List<String> csv = UtilsCSV.llegir(filePath);
+        UtilsCSV.llistar(csv);
+
     }
 
     // Mètode per modificar un treballador (interactiu)
@@ -82,6 +85,20 @@ public class PR123mainTreballadors {
     // Mètode que modifica treballador (per a tests i usuaris) llegint i escrivint sobre disc
     public void modificarTreballador(String id, String columna, String nouValor) throws IOFitxerExcepcio {
         // *************** CODI PRÀCTICA **********************/
+        List<String> csv = llegirFitxerCSV();
+
+        int numLinia = UtilsCSV.obtenirNumLinia(csv, "Id", id);
+        String liniaTreballador = csv.get(numLinia);
+
+        String[] arrTreballador = UtilsCSV.obtenirArrayLinia(liniaTreballador);
+
+        
+        int pos = UtilsCSV.obtenirPosicioColumna(csv,columna);
+        String valorAntic = arrTreballador[pos];
+        UtilsCSV.actualitzarLinia(csv,numLinia,columna,nouValor);
+        
+        UtilsCSV.escriure(filePath, csv);
+
     }
 
     // Encapsulació de llegir el fitxer CSV

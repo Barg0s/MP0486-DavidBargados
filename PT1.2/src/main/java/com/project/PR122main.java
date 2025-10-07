@@ -32,15 +32,16 @@ public class PR122main {
 
     // Mètode per serialitzar la llista de persones
     public static void serialitzarPersones(List<PR122persona> persones) throws IOFitxerExcepcio {
+        // *************** CODI PRÀCTICA **********************/
+
         try (FileOutputStream fos = new FileOutputStream(filePath);
             ObjectOutputStream oos = new ObjectOutputStream(fos)){
             oos.writeObject(persones);
     } catch (Exception e) {
-        throw new IOFitxerExcepcio("Error al serialitzar l'objecte", e);
+        throw new IOFitxerExcepcio("Error al serialitzar l'objecte");
     }
 }
 
-        // *************** CODI PRÀCTICA **********************/
         
     
 
@@ -55,9 +56,9 @@ public class PR122main {
         return al;
 
     } catch (FileNotFoundException e) {
-        throw new IOFitxerExcepcio("Error en deserialitzar l'objecte HashMap: fitxer no trobat", e);
+        throw new IOFitxerExcepcio("Fitxer no trobat");
     } catch (IOException | ClassNotFoundException e) {
-        throw new IOFitxerExcepcio("Error en deserialitzar l'objecte HashMap", e);
+        throw new IOFitxerExcepcio("Error en deserialitzar l'arrayList");
     }
 }
         
