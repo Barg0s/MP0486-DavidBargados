@@ -161,9 +161,10 @@ public class PR132Main {
                 List<String> modulArray = new ArrayList<>();
                 String idModul = elm.getAttribute("id");
                 String expresioComptar = "count(alumnes/alumne)";
-
+                String expresioTutor = "tutor";
                 Double numAlumnes = (Double) xpath.compile(expresioComptar).evaluate(elm,XPathConstants.NUMBER);
-                String tutor = xpath.compile("tutor").evaluate(elm);
+                Node tutorNode = (Node) xpath.evaluate(expresioTutor, elm, XPathConstants.NODE);
+                String tutor = tutorNode.getTextContent();
                 modulArray.add(idModul);
                 modulArray.add(tutor);
                 modulArray.add(String.valueOf(numAlumnes.intValue()));
@@ -302,8 +303,9 @@ public class PR132Main {
         doc.getDocumentElement().normalize();
 
         XPath xpath = XPathFactory.newInstance().newXPath();
-        XPathExpression expr = xpath.compile("/cursos/curs[@id='" + idCurs + "']/alumnes");
-        Node alumnesNode = (Node) expr.evaluate(doc, XPathConstants.NODE);
+        String expresio = "/cursos/curs[@id='" + idCurs + "']/alumnes";
+
+        Node alumnesNode = (Node) xpath.compile(expresio).evaluate(doc, XPathConstants.NODE);  
 
 
         if (alumnesNode != null) {
@@ -322,7 +324,7 @@ public class PR132Main {
             t.transform(source, sr);
 
         } else {
-            System.out.println("No s'ha trobat el node alumnes per idCurs=" + idCurs);
+            System.out.println("No s'ha trobat el curs");
         }
 
     } catch (Exception e) {
@@ -338,9 +340,39 @@ public class PR132Main {
      * @param nomAlumne Nom de l'alumne a eliminar.
      */
     public void eliminarAlumne(String idCurs, String nomAlumne) {
-        // *************** CODI PRÀCTICA **********************/
-    }
 
+        // *************** CODI PRÀCTICA **********************/
+        try {
+        DocumentBuilderFactory dbf = DocumentBuilderFactory.newInstance();
+        DocumentBuilder db = dbf.newDocumentBuilder();
+        Document doc = db.parse(xmlFilePath.toFile());
+        doc.getDocumentElement().normalize();
+
+        XPath xpath = XPathFactory.newInstance().newXPath();
+        String expresio = "/cursos/curs[@id='" + idCurs + "']/alumnes/alumne";
+
+        NodeList listExpression = (NodeList) xpath.compile(expresio).evaluate(doc, XPathConstants.NODESET);
+
+        for (int i = 0; i < listExpression.getLength(); i++) {
+            Element elm = (Element) listExpression.item(i);
+            String nom = elm.getTextContent().trim();
+
+            if (nom.equals(nomAlumne)) {
+                Node pare = elm.getParentNode();
+                pare.removeChild(elm);
+                break; 
+            }
+        }
+        TransformerFactory transformerFactory = TransformerFactory.newInstance();
+        Transformer transformer = transformerFactory.newTransformer();
+        DOMSource source = new DOMSource(doc);
+        StreamResult result = new StreamResult(xmlFilePath.toFile());
+        transformer.transform(source, result);
+
+    } catch (Exception e) {
+        e.printStackTrace();
+    }
+}
     /**
      * Carrega el document XML des de la ruta especificada.
      * 
