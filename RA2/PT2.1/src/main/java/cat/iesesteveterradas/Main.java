@@ -21,7 +21,7 @@ public class Main {
     }
 
     public static Path obtenirPathFitxer() {
-        return Paths.get(System.getProperty("user.dir"), "data", "forhonor.sqlite");
+        return Paths.get("RA2/PT2.1", "data", "forhonor.sqlite");
     }
 
     public static List<String> readFileContent(Path filePath) throws IOException {
