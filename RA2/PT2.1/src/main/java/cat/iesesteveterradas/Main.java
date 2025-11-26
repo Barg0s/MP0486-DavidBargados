@@ -11,27 +11,34 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) {
-        Path filePath = obtenirPathFitxer();
-
         try {
-            GestioDB.crearDB(filePath);
-            
-            try (Connection conn = UtilsSQLite.connect(filePath.toString())) {
-                Taules.mostrarPersonatgesPerFaccio(conn,"Cavallers");
-                //Taules.dibuixarTaula("personatge", conn);
+            Path filePath = obtenirPathFitxer();
 
-            } catch (SQLException e) {
-                e.printStackTrace();
+            // Crear la BD i omplir-la
+            GestioDB.crearDB(filePath);
+
+            try (Connection conn = UtilsSQLite.connect(filePath.toString())) {
+                Taules.mostrarPersonatgesPerFaccio(conn, "Cavallers");
+                System.out.println("Millor atacant");
+
+                Taules.mostrarMillorAtacantFaccio(conn, "Cavallers");
+                System.out.println("Millor Defensor");
+                Taules.mostrarMillorDefensorFaccio(conn, "Cavallers");
             }
-        } catch (SQLException e) {
-            e.printStackTrace();
-        } catch (Exception e) {
+        } catch (SQLException | IOException e) {
             e.printStackTrace();
         }
     }
 
-    public static Path obtenirPathFitxer() {
-        return Paths.get("RA2/PT2.1", "data", "forhonor.sqlite");
+    public static Path obtenirPathFitxer() throws IOException {
+        Path path = Paths.get("RA2", "PT2.1", "data", "forhonor.sqlite");
+
+        // Crear directoris si no existeixen
+        if (!Files.exists(path.getParent())) {
+            Files.createDirectories(path.getParent());
+        }
+
+        return path;
     }
 
     public static List<String> readFileContent(Path filePath) throws IOException {

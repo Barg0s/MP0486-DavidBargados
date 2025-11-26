@@ -10,7 +10,7 @@ import java.util.List;
 
 public class Taules {
 
-    public static void dibuixarTaula(String nom, Connection conn) {
+    public static void dibuixarTaula(Connection conn,String nom) {
         try {
             List<String> taules = UtilsSQLite.listTables(conn);
             if (!taules.contains(nom)) {
@@ -38,7 +38,6 @@ public class Taules {
                     dades.add(fila);
                 }
 
-                // Imprimir usando AsciiTablePrinter
                 AsciiTablePrinter.imprimirTaula(capçaleres, dades);
             }
 
@@ -73,4 +72,59 @@ public class Taules {
             }
         }
 
+
+            public static void mostrarMillorAtacantFaccio(Connection conn, String nomFaccio) {
+                String consulta =
+                    "SELECT p.nom, p.atac " +
+                    "FROM personatge p " +
+                    "JOIN faccio f ON p.idFaccio = f.id " +
+                    "WHERE f.nom = ? " +
+                    "ORDER BY p.atac DESC LIMIT 1";
+
+                try (PreparedStatement ps = conn.prepareStatement(consulta)) {
+                    ps.setString(1, nomFaccio);
+
+                    try (ResultSet rs = ps.executeQuery()) {
+                        if (rs.next()) {
+                            System.out.println(
+                                rs.getString("nom") +
+                                " - Atac: " + rs.getInt("atac")
+                            );
+                        } else {
+                            System.out.println("No hi ha personatges per aquesta facció.");
+                        }
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+    }
+
+            public static void mostrarMillorDefensorFaccio(Connection conn, String nomFaccio) {
+                String consulta =
+                    "SELECT p.nom, p.defensa " +
+                    "FROM personatge p " +
+                    "JOIN faccio f ON p.idFaccio = f.id " +
+                    "WHERE f.nom = ? " +
+                    "ORDER BY p.defensa DESC LIMIT 1";
+
+                try (PreparedStatement ps = conn.prepareStatement(consulta)) {
+                    ps.setString(1, nomFaccio);
+
+                    try (ResultSet rs = ps.executeQuery()) {
+                        if (rs.next()) {
+                            System.out.println(
+                                rs.getString("nom") +
+                                " - Defensa: " + rs.getInt("defensa")
+                            );
+                        } else {
+                            System.out.println("No hi ha personatges per aquesta facció.");
+                        }
+                    }
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+
+
+        
 }
