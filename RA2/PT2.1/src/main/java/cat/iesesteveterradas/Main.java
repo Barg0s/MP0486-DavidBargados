@@ -11,8 +11,12 @@ import java.util.Scanner;
 public class Main {
 
     public static void main(String[] args) {
-        Path path = Paths.get("RA2", "PT2.1", "data", "forhonor.sqlite");
-        
+        Path path = Paths.get("data", "forhonor.sqlite");
+        try {
+            GestioDB.crearDB(path);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
         while(true){
             Scanner scanner = new Scanner(System.in);
             System.out.println("Escull una opcio (1-4)");
@@ -21,16 +25,7 @@ public class Main {
         }
     }
 
-    public static Path obtenirPathFitxer() throws IOException {
-        Path path = Paths.get("RA2", "PT2.1", "data", "forhonor.sqlite");
 
-        // Crear directoris si no existeixen
-        if (!Files.exists(path.getParent())) {
-            Files.createDirectories(path.getParent());
-        }
-
-        return path;
-    }
 
     public static List<String> readFileContent(Path filePath) throws IOException {
         return Files.readAllLines(filePath);
@@ -91,8 +86,9 @@ public class Main {
             case "sortir":
             case "0":
                 System.out.println("Sortint del programa...");
+                System.exit(0);    
                 break;
-
+            
             default:
                 System.out.println("Opció no vàlida!");
         }

@@ -21,8 +21,8 @@ public class GestioDB {
             UtilsSQLite.queryUpdate(conn, "CREATE TABLE IF NOT EXISTS personatge ("
                     + " id INTEGER PRIMARY KEY AUTOINCREMENT,"
                     + " nom VARCHAR(15) NOT NULL,"
-                    + " atac TEXT NOT NULL,"
-                    + " defensa TEXT NOT NULL,"
+                    + " atac INTEGER NOT NULL," 
+                    + " defensa INTEGER NOT NULL,"
                     + " idFaccio INTEGER NOT NULL,"
                     + " FOREIGN KEY (idFaccio) REFERENCES faccio(id));");
 
@@ -33,14 +33,14 @@ public class GestioDB {
     }
 
     public static void popularFaccions(Connection conn) throws SQLException {
-        UtilsSQLite.queryUpdatePS(conn, "INSERT INTO faccio (nom, resum) VALUES (?, ?)","Cavallers","Though seen as a single group, the Knights are hardly unified. There are many Legions in Ashfeld, the most prominent being The Iron Legion.");
-        UtilsSQLite.queryUpdatePS(conn, "INSERT INTO faccio (nom, resum) VALUES (?, ?)","Vikings","The Vikings are a loose coalition of hundreds of clans and tribes, the most powerful being The Warborn.");
-        UtilsSQLite.queryUpdatePS(conn, "INSERT INTO faccio (nom, resum) VALUES (?, ?)","Samurai","The Samurai are the most unified of the five factions, though this does not say much as the Daimyos were often battling each other for dominance.");
-        UtilsSQLite.queryUpdatePS(conn, "INSERT INTO faccio (nom, resum) VALUES (?, ?)","Wu Lin","When the Cataclysm hit, China was not prepared for the civil war that would break out. A number of warriors ventured West.");
+        UtilsSQLite.queryUpdatePS(conn, "INSERT INTO faccio (nom, resum) VALUES (?, ?)","cavallers","Though seen as a single group, the Knights are hardly unified. There are many Legions in Ashfeld, the most prominent being The Iron Legion.");
+        UtilsSQLite.queryUpdatePS(conn, "INSERT INTO faccio (nom, resum) VALUES (?, ?)","vikings","The vikings are a loose coalition of hundreds of clans and tribes, the most powerful being The Warborn.");
+        UtilsSQLite.queryUpdatePS(conn, "INSERT INTO faccio (nom, resum) VALUES (?, ?)","samurai","The samurai are the most unified of the five factions, though this does not say much as the Daimyos were often battling each other for dominance.");
+        UtilsSQLite.queryUpdatePS(conn, "INSERT INTO faccio (nom, resum) VALUES (?, ?)","wu lin","When the Cataclysm hit, China was not prepared for the civil war that would break out. A number of warriors ventured West.");
     }
 
     public static void popularPersonatges(Connection conn) throws SQLException {
-        // CAVALLERS
+        // cavallers
         UtilsSQLite.queryUpdatePS(conn, "INSERT INTO personatge (nom, atac, defensa, idFaccio) VALUES (?, ?, ?, ?)", "Warden", "20", "50", 1);
         UtilsSQLite.queryUpdatePS(conn, "INSERT INTO personatge (nom, atac, defensa, idFaccio) VALUES (?, ?, ?, ?)", "Conqueror", "15", "65", 1);
         UtilsSQLite.queryUpdatePS(conn, "INSERT INTO personatge (nom, atac, defensa, idFaccio) VALUES (?, ?, ?, ?)", "Peacekeeper", "18", "40", 1);
@@ -51,7 +51,7 @@ public class GestioDB {
         UtilsSQLite.queryUpdatePS(conn, "INSERT INTO personatge (nom, atac, defensa, idFaccio) VALUES (?, ?, ?, ?)", "Warmonger", "22", "60", 1);
         UtilsSQLite.queryUpdatePS(conn, "INSERT INTO personatge (nom, atac, defensa, idFaccio) VALUES (?, ?, ?, ?)", "Gryphon", "24", "55", 1);
 
-        // VIKINGS
+        // vikings
         UtilsSQLite.queryUpdatePS(conn, "INSERT INTO personatge (nom, atac, defensa, idFaccio) VALUES (?, ?, ?, ?)", "Raider", "17", "60", 2);
         UtilsSQLite.queryUpdatePS(conn, "INSERT INTO personatge (nom, atac, defensa, idFaccio) VALUES (?, ?, ?, ?)", "Warlord", "15", "70", 2);
         UtilsSQLite.queryUpdatePS(conn, "INSERT INTO personatge (nom, atac, defensa, idFaccio) VALUES (?, ?, ?, ?)", "Berserker", "20", "50", 2);
@@ -60,7 +60,7 @@ public class GestioDB {
         UtilsSQLite.queryUpdatePS(conn, "INSERT INTO personatge (nom, atac, defensa, idFaccio) VALUES (?, ?, ?, ?)", "Shaman", "19", "55", 2);
         UtilsSQLite.queryUpdatePS(conn, "INSERT INTO personatge (nom, atac, defensa, idFaccio) VALUES (?, ?, ?, ?)", "Jormungandr", "21", "50", 2);
 
-        // SAMURAI
+        // samurai
         UtilsSQLite.queryUpdatePS(conn, "INSERT INTO personatge (nom, atac, defensa, idFaccio) VALUES (?, ?, ?, ?)", "Kensei", "18", "62", 3);
         UtilsSQLite.queryUpdatePS(conn, "INSERT INTO personatge (nom, atac, defensa, idFaccio) VALUES (?, ?, ?, ?)", "Shugoki", "16", "75", 3);
         UtilsSQLite.queryUpdatePS(conn, "INSERT INTO personatge (nom, atac, defensa, idFaccio) VALUES (?, ?, ?, ?)", "Orochi", "21", "50", 3);

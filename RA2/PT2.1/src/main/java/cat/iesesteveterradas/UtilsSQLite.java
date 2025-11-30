@@ -35,9 +35,7 @@ public class UtilsSQLite {
         Connection conn = DriverManager.getConnection(url);
         
         // S'ha substituït System.out.println per logger.info
-        logger.info("BBDD SQLite connectada a {}", filePath);
         DatabaseMetaData meta = conn.getMetaData();
-        logger.info("BBDD driver: {}", meta.getDriverName());
         
         return conn;
     }
@@ -73,7 +71,6 @@ public class UtilsSQLite {
                 tables.add(rs.getString("TABLE_NAME"));
             }
         }
-        logger.debug("S'han trobat {} taules.", tables.size());
         return tables;
     }
 
@@ -94,7 +91,6 @@ public class UtilsSQLite {
     public static int queryUpdate(Connection conn, String sql) throws SQLException {
         try (Statement stmt = conn.createStatement()) {
             int affectedRows = stmt.executeUpdate(sql);
-            logger.debug("Executada queryUpdate. Files afectades: {}. SQL: {}", affectedRows, sql);
             return affectedRows;
         }
     }
@@ -111,7 +107,6 @@ public class UtilsSQLite {
      */
     public static ResultSet querySelect(Connection conn, String sql) throws SQLException {
         Statement stmt = conn.createStatement();
-        logger.debug("Executant querySelect. SQL: {}", sql);
         return stmt.executeQuery(sql);
     }
     
@@ -134,7 +129,6 @@ public class UtilsSQLite {
                 pstmt.setObject(i + 1, params[i]);
             }
             int affectedRows = pstmt.executeUpdate();
-            logger.debug("Executada queryUpdatePS. Files afectades: {}. SQL: {}", affectedRows, sql);
             return affectedRows;
         }
     }
@@ -155,7 +149,6 @@ public class UtilsSQLite {
             for (int i = 0; i < params.length; i++) {
                 pstmt.setObject(i + 1, params[i]);
             }
-            logger.debug("Executant querySelectPS. SQL: {}", sql);
             return pstmt.executeQuery();
         } catch (SQLException e) {
             pstmt.close();

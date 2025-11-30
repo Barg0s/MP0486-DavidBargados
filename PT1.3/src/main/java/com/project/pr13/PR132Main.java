@@ -145,7 +145,7 @@ public class PR132Main {
      */
         public List<List<String>> llistarCursos() {
             // *************** CODI PRÀCTICA **********************/
-    List<List<String>> moduls = new ArrayList<>();
+        List<List<String>> moduls = new ArrayList<>();
             try {
             File file = new File(xmlFilePath.toString());
             DocumentBuilderFactory factory = DocumentBuilderFactory.newInstance();
