@@ -6,8 +6,8 @@
             <generator class="native"/>
         </id>
         <property name = "nom" column = "nom" type = "string"/>
-        <property name = "cognom" column = "cognom" type = "string"/>
-        <property name = "codiPostal" column = "codiPostal" type = "integer"/>
+        <property name = "pais" column = "pais" type = "string"/>
+        <property name = "poblacio" column = "poblacio" type = "integer"/>
 
         <set name="ciutadans" cascade="all" lazy="false" inverse="true">
             <key column="ciutatId"/>

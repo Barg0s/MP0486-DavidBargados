@@ -1,7 +1,151 @@
 package com.project;
 
+import java.io.Serializable;
+import java.util.Collection;
+import java.util.List;
+import java.util.Set;
+import java.util.function.Consumer;
+import java.util.function.Function;
+
+import org.hibernate.Hibernate;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.cfg.Configuration;
+
 public class Manager {
 
+    private static SessionFactory factory;
 
+    public static void createSessionFactory() {
+        try {
+            factory = new Configuration().configure().buildSessionFactory();
+        } catch (Throwable ex) { 
+            System.err.println("Failed to create sessionFactory object." + ex);
+            throw new ExceptionInInitializerError(ex); 
+        }
+    }
+
+    public static void close() {
+        if (factory != null) factory.close();
+    }
+ 
+        private static void executeInTransaction(Consumer<Session> action) {
+        Transaction tx = null;
+        try (Session session = factory.openSession()) {
+            tx = session.beginTransaction();
+            action.accept(session);
+            tx.commit();
+        } catch (Exception e) {
+            if (tx != null && tx.isActive()) tx.rollback();
+            throw new RuntimeException("Error en transacció Hibernate", e);
+        }
+    }
+
+    public static <T> String collectionToString(Class<T> clazz, Collection<T> collection) {
+        if (collection == null || collection.isEmpty()) return clazz.getSimpleName() + "[]";
+        StringBuilder sb = new StringBuilder(clazz.getSimpleName() + ":\n");
+        for (T obj : collection) sb.append(obj).append("\n");
+        return sb.toString();
+    }
+
+
+
+    public static <T> List<T> listCollection(Class<T> clazz, String whereClause) {
+        return executeInTransactionWithResult(session -> {
+            String hql = "FROM " + clazz.getName();
+            if (whereClause != null && !whereClause.trim().isEmpty()) {
+                hql += " WHERE " + whereClause;
+            }
+            return session.createQuery(hql, clazz).list();
+        });
+    }
+    private static <T> T executeInTransactionWithResult(Function<Session, T> action) {
+        Transaction tx = null;
+        try (Session session = factory.openSession()) {
+            tx = session.beginTransaction();
+            T result = action.apply(session);
+            tx.commit();
+            return result;
+        } catch (Exception e) {
+            if (tx != null && tx.isActive()) tx.rollback();
+            throw new RuntimeException("Error en transacció Hibernate", e);
+        }
+    }
+
+
+    //CRUD
+    public static Ciutat addCiutat(String nom, String pais, int poblacio) {
+        return executeInTransactionWithResult(session -> {
+            Ciutat novaCiutat = new Ciutat(nom, pais, poblacio);
+            session.persist(novaCiutat);
+            return novaCiutat;
+        });
+    }
+
+
+    public static Ciutada addCiutada(String nom,String congnom,int edat){
+        return executeInTransactionWithResult((session) -> {
+            Ciutada ciutada = new Ciutada(nom, congnom, edat);
+            session.persist(ciutada);
+            return ciutada;
+        });
+    }
+
+
+    public static void updateCiutat(long ciutatId, String type,String pais,int poblacio, Set<Ciutada> newCiutadans) {
+        executeInTransaction(session -> {
+            Ciutat ciutat = session.get(Ciutat.class, ciutatId);
+            if (ciutat == null) return;
+            
+            ciutat.setNom(type);
+            ciutat.setPais(pais);
+            ciutat.setPoblacio(poblacio);
+            ciutat.setCiutadans(newCiutadans);
+            if (newCiutadans != null) {
+                if (ciutat.getCiutadans() != null && !ciutat.getCiutadans().isEmpty()) {
+                    List<Ciutada> itemsToRemove = List.copyOf(ciutat.getCiutadans());
+                    itemsToRemove.forEach(ciutat::deleteCiutada);
+                }
+                for (Ciutada item : newCiutadans) {
+                    Ciutada managedItem = session.get(Ciutada.class, item.getCiutadaId());
+                    if (managedItem != null) {
+                        ciutat.addCiutada(managedItem);
+                    }
+                }
+            }
+            session.merge(ciutat);
+        });
+    }
     
+
+    public static void updateCiutada(long ciutadaId,String nom,String cognom,int edat){
+        executeInTransaction(session -> {
+            Ciutada ciutada = session.get(Ciutada.class, ciutadaId);
+            if (ciutada != null) {
+                ciutada.setNom(nom);
+                ciutada.setCognom(cognom);
+                ciutada.setEdat(edat);
+                session.merge(ciutada);
+            }
+        });
+    
+    }
+    public static Ciutat getCiutatWithCiutadans(long ciutatId) {
+        return executeInTransactionWithResult(session -> {
+            Ciutat ciutat = session.get(Ciutat.class, ciutatId);
+            if (ciutat != null) {
+                Hibernate.initialize(ciutat.getCiutadans());
+            }
+            return ciutat;
+        });
+    }
+    public static <T> void delete(Class<T> clazz, Serializable id) {
+        executeInTransaction(session -> {
+            T obj = session.get(clazz, id);
+            if (obj != null) {
+                session.remove(obj);
+            }
+        });
+    }
 }

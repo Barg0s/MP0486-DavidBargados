@@ -4,23 +4,26 @@ import java.io.Serializable;
 
 public class Ciutada implements Serializable{
 
-    private long ciutatId;
+    private long ciutadaId;
     private String nom;
     private String cognom;
     private int edat;
+    private Ciutat ciutat;
 
     public Ciutada(){}
 
 
-    public Ciutada(String nom){
+    public Ciutada(String nom,String cognom,int edat){
         this.nom = nom;
+        this.cognom = cognom;
+        this.edat = edat;
 
     }
-    public long getCiutatId() {
-        return ciutatId;
+    public long getCiutadaId() {
+        return ciutadaId;
     }
-    public void setCiutatId(long ciutatId) {
-        this.ciutatId = ciutatId;
+    public void setCiutadaId(long ciutadaId) {
+        this.ciutadaId = ciutadaId;
     }
     public String getNom() {
         return nom;
@@ -44,6 +47,17 @@ public class Ciutada implements Serializable{
         this.edat = edat;
     }
     
+    public Ciutat getCiutat(){
+        return ciutat;
+    }
+    public void setCiutat(Ciutat ciutat){
+        this.ciutat = ciutat;
+    }
 
+
+    @Override
+    public String toString() {
+        return ciutadaId + ": " + nom + " " + cognom + " (" + edat + " anys)";
+    }    
     
 }

@@ -1,9 +1,10 @@
 package com.project;
 
+import java.io.Serializable;
 import java.util.HashSet;
 import java.util.Set;
 
-public class Ciutat {
+public class Ciutat implements Serializable{
     private long ciutatId;
     private String nom;
     private String pais;
@@ -12,8 +13,11 @@ public class Ciutat {
 
 
     public Ciutat(){}
-    public Ciutat(String nom){
+
+    public Ciutat(String nom,String pais,int poblacio){
         this.nom = nom;
+        this.pais = pais;
+        this.poblacio = poblacio;
     }
 
     public long getCiutatId() {
@@ -54,9 +58,28 @@ public class Ciutat {
 
     public void setCiutadans(Set<Ciutada> ciutadans) {
         this.ciutadans = ciutadans;
+        if (this.ciutadans != null){
+            for (Ciutada ciutada : this.ciutadans){
+                ciutada.setCiutat(this);
+            }
+        }
+    }
+    
+    public void addCiutada(Ciutada ciutada){
+        if (ciutadans.add(ciutada)){
+            ciutada.setCiutat(this);
+        }
     }
 
 
+    public void deleteCiutada(Ciutada ciutada){
+        if (ciutadans.remove(ciutada)){
+            ciutada.setCiutat(null);
+        }
+    }
 
-    
+    @Override
+    public String toString() {
+        return ciutatId + ": " + nom + " (" + pais + "), Població: " + poblacio +", Ciutadans: " + ciutadans ;
+    }    
 }
