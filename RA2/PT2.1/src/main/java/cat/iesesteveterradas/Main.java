@@ -19,7 +19,7 @@ public class Main {
         }
         while(true){
             Scanner scanner = new Scanner(System.in);
-            System.out.println("Escull una opcio (1-4)");
+            System.out.println("Escull una opcio (0 (sortir) - 4)");
             String opcio = scanner.nextLine();
             menu(opcio,path);
         }
@@ -43,7 +43,7 @@ public class Main {
             case "mostrar taula":
             case "1":
                 System.out.print("Introdueix la taula: ");
-                opcio2 = scan.nextLine();
+                opcio2 = scan.nextLine().toLowerCase();
                 try (Connection conn = UtilsSQLite.connect(filePath.toString())) {
                     Taules.dibuixarTaula(conn, opcio2);
                 } catch (Exception e) {
@@ -54,7 +54,7 @@ public class Main {
             case "mostrar personatges per faccio":
             case "2":
                 System.out.print("Introdueix la facció: ");
-                opcio2 = scan.nextLine();
+                opcio2 = scan.nextLine().toLowerCase();
                 try (Connection conn = UtilsSQLite.connect(filePath.toString())) {
                     Taules.mostrarPersonatgesPerFaccio(conn, opcio2);                
                 } catch (Exception e) {
@@ -65,7 +65,7 @@ public class Main {
             case "millor atacant per faccio":
             case "3":
                 System.out.print("Introdueix la facció: ");
-                opcio2 = scan.nextLine();
+                opcio2 = scan.nextLine().toLowerCase();
                 try (Connection conn = UtilsSQLite.connect(filePath.toString())) {
                     Taules.mostrarMillorAtacantFaccio(conn, opcio2);
                 } catch (Exception e) {
@@ -76,7 +76,7 @@ public class Main {
             case "millor defensor per faccio":
             case "4":
                 System.out.print("Introdueix la facció: ");
-                opcio2 = scan.nextLine();
+                opcio2 = scan.nextLine().toLowerCase();
                 try (Connection conn = UtilsSQLite.connect(filePath.toString())) {
                     Taules.mostrarMillorDefensorFaccio(conn, opcio2);
                 } catch (Exception e) {
@@ -90,7 +90,7 @@ public class Main {
                 break;
             
             default:
-                System.out.println("Opció no vàlida!");
+                System.out.println("Opció no valida");
         }
     }
 
