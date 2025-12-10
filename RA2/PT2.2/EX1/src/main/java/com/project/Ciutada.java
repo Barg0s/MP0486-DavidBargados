@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Ciutada implements Serializable{
 
-    private long ciutadaId;
+    private Long ciutadaId;
     private String nom;
     private String cognom;
     private int edat;
@@ -19,10 +19,10 @@ public class Ciutada implements Serializable{
         this.edat = edat;
 
     }
-    public long getCiutadaId() {
+    public Long getCiutadaId() {
         return ciutadaId;
     }
-    public void setCiutadaId(long ciutadaId) {
+    public void setCiutadaId(Long ciutadaId) {
         this.ciutadaId = ciutadaId;
     }
     public String getNom() {

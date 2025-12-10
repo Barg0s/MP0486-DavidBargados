@@ -101,7 +101,6 @@ public class Manager {
             ciutat.setNom(type);
             ciutat.setPais(pais);
             ciutat.setPoblacio(poblacio);
-            ciutat.setCiutadans(newCiutadans);
             if (newCiutadans != null) {
                 if (ciutat.getCiutadans() != null && !ciutat.getCiutadans().isEmpty()) {
                     List<Ciutada> itemsToRemove = List.copyOf(ciutat.getCiutadans());
@@ -114,6 +113,7 @@ public class Manager {
                     }
                 }
             }
+
             session.merge(ciutat);
         });
     }
