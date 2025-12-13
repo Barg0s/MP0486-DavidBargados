@@ -102,15 +102,15 @@ public class Ciutat implements Serializable{
 
     @Override
     public String toString() {
-        String llistaItems = "Buit";
+        String llistaItems = "";
         if (ciutadans != null && !ciutadans.isEmpty()) {
-            llistaItems = ciutadans.stream()
-                .map(Ciutada::getNom)
-                .collect(Collectors.joining(", "));
+            llistaItems = ciutadans.stream().map(c -> c.getNom() + " " + c.getCognom()).collect(Collectors.joining(" | "));
         }
-        return String.format("Ciutat [ID=%d, Nom=%s,Pais=%s, Poblacio=%d, Items: %s]", ciutatId, nom, pais,poblacio, llistaItems);
+        return String.format("%s (%s), Població: %d, Ciutadans: [%s]", 
+                nom, pais, poblacio, llistaItems);
     }
-    
+
+
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
