@@ -14,6 +14,6 @@
         <property name="cognom" column="cognom"/>
         <property name="edat" column="edat"/>
 
-        <many-to-one name="ciutat" class="com.project.Ciutat" column="ciutat_id"/>
+        <many-to-one name="ciutat" class="com.project.Ciutat" column="ciutatId"/>
     </class>
 </hibernate-mapping>
