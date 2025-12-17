@@ -44,7 +44,14 @@ public class Autor implements Serializable {
     public Autor(String nom) {
         this.nom = nom;
     }
-
+    public void addLlibre(Llibre llibre) {
+        llibres.add(llibre);
+        llibre.getAutors().add(this);  // CRÍTIC: Actualitzar l'altre costat!
+    }
+    public void removeLlibre(Llibre llibre) {
+        llibres.remove(llibre);
+        llibre.getAutors().remove(this);  // CRÍTIC: Trencar la relació!
+    }
     public Long getAutorId() { return autorId; }
     public void setAutorId(Long autorId) { this.autorId = autorId; }
     public String getNom() { return nom; }
@@ -56,4 +63,5 @@ public class Autor implements Serializable {
     public String toString() {
         return "Autor{id=" + autorId + ", nom='" + nom + "'}";
     }
+    
 }

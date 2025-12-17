@@ -1,13 +1,5 @@
 package com.project.dao;
 
-import com.project.domain.*;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.Transaction;
-import org.hibernate.cfg.Configuration;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
-import org.hibernate.service.ServiceRegistry;
-
 import java.io.IOException;
 import java.io.InputStream;
 import java.time.LocalDate;
@@ -15,6 +7,20 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Properties;
 import java.util.Set;
+
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
+import org.hibernate.Transaction;
+import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+import org.hibernate.service.ServiceRegistry;
+
+import com.project.domain.Autor;
+import com.project.domain.Biblioteca;
+import com.project.domain.Exemplar;
+import com.project.domain.Llibre;
+import com.project.domain.Persona;
+import com.project.domain.Prestec;
 
 /**
  * Classe Manager - Capa d'accés a dades (DAO)
@@ -93,7 +99,8 @@ public class Manager {
         try {
             tx = session.beginTransaction();
             // TODO: Crear l'objecte Autor amb el constructor i persistir-lo amb session.persist()
-            
+            autor = new Autor(nom);
+            session.persist(autor);           
             tx.commit();
         } catch (Exception e) {
             if (tx != null) tx.rollback();
@@ -120,7 +127,7 @@ public class Manager {
         try {
             tx = session.beginTransaction();
             // TODO: Crear l'objecte Llibre amb el constructor i persistir-lo
-            
+            llibre = new Llibre(isbn, titol, editorial, anyPublicacio);
             tx.commit();
         } catch (Exception e) {
             if (tx != null) tx.rollback();
@@ -146,10 +153,6 @@ public class Manager {
      * @param llibres Conjunt de llibres a vincular amb l'autor
      */
     public static void updateAutor(Long autorId, String nom, Set<Llibre> llibres) {
-        Session session = factory.openSession();
-        Transaction tx = null;
-        try {
-            tx = session.beginTransaction();
             // TODO IMPORTANT: Relació Many-to-Many
             // 1. Recuperar l'autor per ID amb session.find(Autor.class, autorId)
             // 2. Si l'autor existeix, actualitzar el nom amb setNom()
@@ -160,6 +163,38 @@ public class Manager {
             //      b) Afegeix l'autor a la seva col·lecció: llibreDB.getAutors().add(autor)
             //    Hibernate detectarà els canvis i actualitzarà la taula intermèdia.
             
+        Session session = factory.openSession();
+        Transaction tx = null;
+        if (autorId == null){
+            throw new IllegalArgumentException("l'id no pot ser null");
+        }
+        try {
+            tx = session.beginTransaction();
+            Autor autor = session.get(Autor.class,autorId);
+            if (autor == null){
+                System.out.println("L'autor no existeix");
+                return;
+            }
+            if (nom != null){
+
+                for (Llibre l : Set.copyOf(autor.getLlibres())){
+                    autor.removeLlibre(l);
+                }
+                
+                if (llibres != null){
+                for (Llibre llibre : llibres){
+                    Llibre nouLlibre = session.get(Llibre.class, llibre.getLlibreId());
+                    if (nouLlibre != null){
+                        autor.addLlibre(nouLlibre);
+                    }
+                }
+
+                }
+
+                autor.setNom(nom);
+                session.merge(autor);
+            }
+
             tx.commit();
         } catch (Exception e) {
             if (tx != null) tx.rollback();
@@ -186,7 +221,7 @@ public class Manager {
         try {
             tx = session.beginTransaction();
             // TODO: Crear l'objecte Biblioteca amb el constructor i persistir-lo
-            
+            biblio = new Biblioteca(nom, ciutat, adreca, telefon, email);
             tx.commit();
         } catch (Exception e) {
             if (tx != null) tx.rollback();
@@ -216,7 +251,7 @@ public class Manager {
             // NOTA: Els objectes llibre i biblioteca passats com a paràmetre poden estar "detached"
             // (no associats a aquesta sessió). Pots usar session.merge() per reassociar-los
             // o simplement passar-los al constructor i persistir l'exemplar.
-            
+            exemplar = new Exemplar(codiBarres, llibre, biblioteca);
             tx.commit();
         } catch (Exception e) {
             if (tx != null) tx.rollback();
@@ -243,6 +278,7 @@ public class Manager {
         try {
             tx = session.beginTransaction();
             // TODO: Crear l'objecte Persona amb el constructor i persistir-lo
+            persona = new Persona(dni, nom, telefon, email);
             
             tx.commit();
         } catch (Exception e) {
@@ -285,7 +321,19 @@ public class Manager {
             //    d) Actualitzar l'exemplar: session.merge(exemplarDB)
             // 4. SI NO ESTÀ DISPONIBLE:
             //    Mostrar missatge informatiu per consola (System.out.println)
-            
+            Exemplar exemplarDB = session.find(Exemplar.class, exemplar.getExemplarId());
+            if (exemplarDB.isDisponible()){
+                prestec = new Prestec(exemplar, persona, dataPrestec, dataRetornPrevista);
+
+                exemplarDB.setDisponible(false);
+                session.persist(prestec);
+                session.merge(exemplarDB);
+            }
+            else if (exemplarDB == null){
+                System.err.println("No està disponible");
+            }else{
+                System.out.println("L'exemplar ja existeix");
+            }
             tx.commit();
         } catch (Exception e) {
             if (tx != null) tx.rollback();
@@ -323,6 +371,17 @@ public class Manager {
             //    e) Guardar canvis (Hibernate detecta els canvis automàticament en objectes managed)
             // 4. SI NO ES POT RETORNAR:
             //    Mostrar missatge informatiu
+            Prestec prestec = session.find(Prestec.class, prestecId);
+
+            if (prestec != null && prestec.isActiu()){
+                prestec.setDataRetornReal(dataReal);
+                prestec.setActiu(false);
+                Exemplar exemplar = prestec.getExemplar();
+                exemplar.setDisponible(true);
+            }else{
+                System.out.println("El prestec no es pot retornar");
+            }
+
             
             tx.commit();
         } catch (Exception e) {
@@ -349,10 +408,13 @@ public class Manager {
      */
     public static List<Llibre> findLlibresAmbAutors() {
         try (Session session = factory.openSession()) {
+            
             // TODO: Escriure la consulta HQL
             // String hql = "SELECT DISTINCT l FROM Llibre l JOIN FETCH l.autors";
             // return session.createQuery(hql, Llibre.class).list();
-            return null;
+            String hql = "SELECT DISTINCT l FROM Llibre l JOIN FETCH l.autors";
+            
+            return session.createQuery(hql, Llibre.class).list();
         }
     }
 
@@ -371,7 +433,10 @@ public class Manager {
             // TODO: Escriure la consulta HQL que retorni llibres en préstec actiu
             // Has de navegar: Prestec -> Exemplar -> Llibre per obtenir el títol
             // I també: Prestec -> Persona per obtenir el nom
-            return null;
+            String hql = "SELECT p.exemplar.llibre.titol, p.persona.nom FROM Prestec p WHERE p.actiu = true";            
+            
+            
+            return session.createQuery(hql,Object[].class).list();
         }
     }
 
@@ -387,7 +452,8 @@ public class Manager {
     public static List<Object[]> findLlibresAmbBiblioteques() {
         try (Session session = factory.openSession()) {
             // TODO: Escriure la consulta HQL navegant des d'Exemplar
-            return null;
+            String hql = "SELECT e.llibre.titol, e.biblioteca.nom FROM Exemplar e";
+            return session.createQuery(hql,Object[].class).list();
         }
     }
 

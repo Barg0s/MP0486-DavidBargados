@@ -1,13 +1,16 @@
 package com.project;
 
 import java.io.File;
-import java.time.LocalDate;
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 
 import com.project.dao.Manager;
-import com.project.domain.*;
+import com.project.domain.Autor;
+import com.project.domain.Biblioteca;
+import com.project.domain.Exemplar;
+import com.project.domain.Llibre;
+import com.project.domain.Persona;
+import com.project.domain.Prestec;
 
 /**
  * Classe principal per provar el sistema de gestió de biblioteca.
@@ -51,7 +54,7 @@ public class Main {
         // Prerequisit: Les entitats Autor i Llibre han de tenir @Entity, @Id, @GeneratedValue
         // ---------------------------------------------------------
         
-        /*
+        
         System.out.println("\n=== FASE 1: Creació d'Autors i Llibres ===");
         
         // Creem dos autors
@@ -65,7 +68,7 @@ public class Main {
         // Comprovem que s'han creat correctament (no són null i tenen ID assignat)
         System.out.println("Autors creats: " + (a1 != null && a2 != null ? "OK" : "ERROR"));
         System.out.println("Llibres creats: " + (l1 != null && l2 != null ? "OK" : "ERROR"));
-        */
+        
 
         // ---------------------------------------------------------
         // FASE 2: RELACIONS MANY-TO-MANY (Autors <-> Llibres)
@@ -74,7 +77,7 @@ public class Main {
         // COMPTE: Recorda que Llibre és el costat propietari de la relació!
         // ---------------------------------------------------------
         
-        /*
+        
         System.out.println("\n=== FASE 2: Vinculació Autors-Llibres ===");
         
         // Assignem el llibre "1984" a l'autor George Orwell
@@ -92,7 +95,6 @@ public class Main {
             Manager.updateAutor(a2.getAutorId(), a2.getNom(), llibresRowling);
             System.out.println("Autor '" + a2.getNom() + "' vinculat al llibre '" + l2.getTitol() + "'");
         }
-        */
 
         // ---------------------------------------------------------
         // FASE 3: INFRAESTRUCTURA (Biblioteca, Exemplar, Persona)
