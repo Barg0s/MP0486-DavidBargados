@@ -128,6 +128,8 @@ public class Manager {
             tx = session.beginTransaction();
             // TODO: Crear l'objecte Llibre amb el constructor i persistir-lo
             llibre = new Llibre(isbn, titol, editorial, anyPublicacio);
+            session.persist(llibre);
+
             tx.commit();
         } catch (Exception e) {
             if (tx != null) tx.rollback();
@@ -163,46 +165,30 @@ public class Manager {
             //      b) Afegeix l'autor a la seva col·lecció: llibreDB.getAutors().add(autor)
             //    Hibernate detectarà els canvis i actualitzarà la taula intermèdia.
             
-        Session session = factory.openSession();
-        Transaction tx = null;
-        if (autorId == null){
-            throw new IllegalArgumentException("l'id no pot ser null");
-        }
-        try {
-            tx = session.beginTransaction();
-            Autor autor = session.get(Autor.class,autorId);
-            if (autor == null){
-                System.out.println("L'autor no existeix");
-                return;
-            }
-            if (nom != null){
+            try (Session s = factory.openSession()) {
+                Transaction tx = s.beginTransaction();
+                try {
+                    Autor aut = s.get(Autor.class, autorId);
+                    if (aut != null) {
+                        aut.setNom(nom);
+                        for (Llibre antic : llibres) {
+                            Llibre managedLlibre = s.get(Llibre.class, antic.getLlibreId());
+                            if (managedLlibre != null) {
+                                managedLlibre.getAutors().add(aut);
+                            }
+                        }
 
-                for (Llibre l : Set.copyOf(autor.getLlibres())){
-                    autor.removeLlibre(l);
-                }
-                
-                if (llibres != null){
-                for (Llibre llibre : llibres){
-                    Llibre nouLlibre = session.get(Llibre.class, llibre.getLlibreId());
-                    if (nouLlibre != null){
-                        autor.addLlibre(nouLlibre);
+                        tx.commit();
+                    } else {
+                        System.out.println("Autor no trobat amb ID " + autorId);
                     }
+                } catch (Exception e) {
+                    if (tx != null && tx.isActive()) tx.rollback();
+                    //logger.error("Error actualitzant autor amb ID {}: {}", autorId, e.getMessage(), e);
+                    throw e;
                 }
-
-                }
-
-                autor.setNom(nom);
-                session.merge(autor);
             }
-
-            tx.commit();
-        } catch (Exception e) {
-            if (tx != null) tx.rollback();
-            e.printStackTrace();
-        } finally {
-            session.close();
         }
-    }
 
     /**
      * Crea i persisteix una nova biblioteca.
@@ -222,6 +208,7 @@ public class Manager {
             tx = session.beginTransaction();
             // TODO: Crear l'objecte Biblioteca amb el constructor i persistir-lo
             biblio = new Biblioteca(nom, ciutat, adreca, telefon, email);
+            session.persist(biblio);
             tx.commit();
         } catch (Exception e) {
             if (tx != null) tx.rollback();
@@ -252,6 +239,8 @@ public class Manager {
             // (no associats a aquesta sessió). Pots usar session.merge() per reassociar-los
             // o simplement passar-los al constructor i persistir l'exemplar.
             exemplar = new Exemplar(codiBarres, llibre, biblioteca);
+            session.persist(exemplar);
+
             tx.commit();
         } catch (Exception e) {
             if (tx != null) tx.rollback();
@@ -279,7 +268,7 @@ public class Manager {
             tx = session.beginTransaction();
             // TODO: Crear l'objecte Persona amb el constructor i persistir-lo
             persona = new Persona(dni, nom, telefon, email);
-            
+            session.persist(persona);
             tx.commit();
         } catch (Exception e) {
             if (tx != null) tx.rollback();

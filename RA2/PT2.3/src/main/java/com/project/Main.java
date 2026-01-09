@@ -10,6 +10,8 @@ import com.project.domain.Biblioteca;
 import com.project.domain.Exemplar;
 import com.project.domain.Llibre;
 import com.project.domain.Persona;
+import java.time.LocalDate;
+import java.util.*;
 import com.project.domain.Prestec;
 
 /**
@@ -102,7 +104,7 @@ public class Main {
         // Prerequisit: Relacions @ManyToOne i @OneToMany configurades
         // ---------------------------------------------------------
         
-        /*
+        
         System.out.println("\n=== FASE 3: Infraestructura i Usuaris ===");
         
         // Creem una biblioteca
@@ -127,7 +129,7 @@ public class Main {
         // Mostrem tots els exemplars creats
         System.out.println("\n>> Llistat d'Exemplars a la base de dades:");
         System.out.println(Manager.collectionToString(Exemplar.class, Manager.listCollection(Exemplar.class)));
-        */
+        
 
         // ---------------------------------------------------------
         // FASE 4: LÒGICA DE PRÉSTECS
@@ -136,7 +138,7 @@ public class Main {
         // IMPORTANT: Inclou la lògica de negoci (comprovar disponibilitat)
         // ---------------------------------------------------------
         
-        /*
+        
         System.out.println("\n=== FASE 4: Préstecs i Retorns ===");
         LocalDate avui = LocalDate.now();
 
@@ -163,7 +165,7 @@ public class Main {
         // Mostrem l'estat final dels préstecs
         System.out.println("\n>> Estat final dels Préstecs:");
         System.out.println(Manager.collectionToString(Prestec.class, Manager.listCollection(Prestec.class)));
-        */
+        
 
         // ---------------------------------------------------------
         // FASE 5: CONSULTES HQL
@@ -171,7 +173,7 @@ public class Main {
         // Prerequisit: Totes les fases anteriors completades
         // ---------------------------------------------------------
         
-        /*
+        
         System.out.println("\n=== FASE 5: Consultes HQL ===");
         
         // Consulta A: Llibres amb els seus autors (usa JOIN FETCH i DISTINCT)
@@ -195,7 +197,7 @@ public class Main {
         System.out.println("\n--- C) Llibres i les seves Biblioteques ---");
         List<Object[]> llibresBiblio = Manager.findLlibresAmbBiblioteques();
         System.out.println(Manager.formatMultipleResult(llibresBiblio));
-        */
+        
 
         // ---------------------------------------------------------
         // TANCAMENT
