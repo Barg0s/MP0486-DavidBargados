@@ -318,9 +318,17 @@ public class Manager {
                 session.persist(prestec);
                 session.merge(exemplarDB);
             }
-            else if (exemplarDB == null){
-                System.err.println("No està disponible");
-            }else{
+            if (exemplarDB == null){
+                System.err.println("Exemplar no trobat");
+                return null;
+
+            }
+            if (!exemplar.isDisponible()){
+                System.out.println("L'exemplar no està disponible");
+                return null;
+            }
+            
+            else{
                 System.out.println("L'exemplar ja existeix");
             }
             tx.commit();
