@@ -330,7 +330,6 @@ public class Manager {
             
             else{
                 System.out.println("L'exemplar ja existeix");
-                return null;
             }
             tx.commit();
         } catch (Exception e) {
