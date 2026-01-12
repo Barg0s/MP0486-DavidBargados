@@ -184,7 +184,7 @@ public class Manager {
                     }
                 } catch (Exception e) {
                     if (tx != null && tx.isActive()) tx.rollback();
-                    //logger.error("Error actualitzant autor amb ID {}: {}", autorId, e.getMessage(), e);
+                        System.out.println("Error actualitzant autor");
                     throw e;
                 }
             }
@@ -330,6 +330,7 @@ public class Manager {
             
             else{
                 System.out.println("L'exemplar ja existeix");
+                return null;
             }
             tx.commit();
         } catch (Exception e) {

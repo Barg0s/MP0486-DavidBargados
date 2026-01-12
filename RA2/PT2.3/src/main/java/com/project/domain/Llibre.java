@@ -38,14 +38,12 @@ public class Llibre implements Serializable {
     // PISTA: Aquesta entitat és la "propietària" de la relació. 
     // Cal definir aquí el @JoinTable explícitament.
     // PISTA EXTRA: Fes servir fetch = FetchType.LAZY per eficiència.
-    @ManyToMany(
-        cascade = {CascadeType.PERSIST, CascadeType.MERGE},  // MAI CascadeType.REMOVE!
-        fetch = FetchType.LAZY  // CANVIAT: de EAGER a LAZY
-    )
+    
+    @ManyToMany(cascade = {CascadeType.PERSIST, CascadeType.MERGE},fetch = FetchType.LAZY)
     @JoinTable(
-        name = "llibre_autor",
-        joinColumns=@JoinColumn(name = "llibreId"),
-        inverseJoinColumns= @JoinColumn(name= "autorId")
+        name = "llibre_autor", //Taula intermèdia
+        joinColumns=@JoinColumn(name = "llibreId"), //Clau forana a llibre
+        inverseJoinColumns= @JoinColumn(name= "autorId") //Clau forana a autor
     )    
     private Set<Autor> autors = new HashSet<>();
     // TODO 4: Relació OneToMany amb Exemplar.

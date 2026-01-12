@@ -32,10 +32,7 @@ public class Autor implements Serializable {
     // PISTA: L'enunciat diu que Autor és la part inversa ("mappedBy").
     // Això vol dir que la taula intermèdia la gestiona l'entitat 'Llibre'.
     
-    @ManyToMany(
-        mappedBy= "autors",
-        fetch = FetchType.LAZY  // CANVIAT: de EAGER a LAZY
-    )
+    @ManyToMany(mappedBy= "autors",fetch = FetchType.LAZY)
 
     private Set<Llibre> llibres = new HashSet<>();
 
@@ -46,11 +43,11 @@ public class Autor implements Serializable {
     }
     public void addLlibre(Llibre llibre) {
         llibres.add(llibre);
-        llibre.getAutors().add(this);  // CRÍTIC: Actualitzar l'altre costat!
+        llibre.getAutors().add(this);
     }
     public void removeLlibre(Llibre llibre) {
         llibres.remove(llibre);
-        llibre.getAutors().remove(this);  // CRÍTIC: Trencar la relació!
+        llibre.getAutors().remove(this);
     }
     public Long getAutorId() { return autorId; }
     public void setAutorId(Long autorId) { this.autorId = autorId; }
