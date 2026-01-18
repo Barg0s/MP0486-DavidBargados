@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.Properties;
 import java.util.Set;
 
+import org.hibernate.HibernateException;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.Transaction;
@@ -93,6 +94,9 @@ public class Manager {
      * @return L'objecte Autor persistit (amb ID generat) o null si hi ha error
      */
     public static Autor addAutor(String nom) {
+        if (nom == null || nom.isEmpty()){
+            return null;
+        }
         Session session = factory.openSession();
         Transaction tx = null;
         Autor autor = null;
@@ -104,6 +108,7 @@ public class Manager {
             tx.commit();
         } catch (Exception e) {
             if (tx != null) tx.rollback();
+            autor = null;
             e.printStackTrace();
         } finally {
             session.close();
@@ -311,26 +316,19 @@ public class Manager {
             // 4. SI NO ESTÀ DISPONIBLE:
             //    Mostrar missatge informatiu per consola (System.out.println)
             Exemplar exemplarDB = session.find(Exemplar.class, exemplar.getExemplarId());
-            if (exemplarDB.isDisponible()){
-                prestec = new Prestec(exemplar, persona, dataPrestec, dataRetornPrevista);
-
-                exemplarDB.setDisponible(false);
-                session.persist(prestec);
-                session.merge(exemplarDB);
-            }
-            if (exemplarDB == null){
-                System.err.println("Exemplar no trobat");
+            if (exemplarDB == null) {
+                System.out.println("Exemplar no trobat");
                 return null;
-
             }
-            if (!exemplar.isDisponible()){
+            if (!exemplarDB.isDisponible()){
                 System.out.println("L'exemplar no està disponible");
                 return null;
             }
-            
-            else{
-                System.out.println("L'exemplar ja existeix");
-            }
+            prestec = new Prestec(exemplarDB, persona, dataPrestec, dataRetornPrevista);
+
+            exemplarDB.setDisponible(false);
+            session.persist(prestec);
+            session.merge(exemplarDB);
             tx.commit();
         } catch (Exception e) {
             if (tx != null) tx.rollback();
@@ -406,10 +404,7 @@ public class Manager {
     public static List<Llibre> findLlibresAmbAutors() {
         try (Session session = factory.openSession()) {
             
-            // TODO: Escriure la consulta HQL
-            // String hql = "SELECT DISTINCT l FROM Llibre l JOIN FETCH l.autors";
-            // return session.createQuery(hql, Llibre.class).list();
-            String hql = "SELECT DISTINCT l FROM Llibre l JOIN FETCH l.autors";
+             String hql = "SELECT DISTINCT l FROM Llibre l JOIN FETCH l.autors";
             
             return session.createQuery(hql, Llibre.class).list();
         }
@@ -430,9 +425,7 @@ public class Manager {
             // TODO: Escriure la consulta HQL que retorni llibres en préstec actiu
             // Has de navegar: Prestec -> Exemplar -> Llibre per obtenir el títol
             // I també: Prestec -> Persona per obtenir el nom
-            String hql = "SELECT p.exemplar.llibre.titol, p.persona.nom FROM Prestec p WHERE p.actiu = true";            
-            
-            
+            String hql = "SELECT p.exemplar.llibre.titol, p.persona.nom FROM Prestec p WHERE p.actiu = true";       
             return session.createQuery(hql,Object[].class).list();
         }
     }
@@ -498,5 +491,34 @@ public class Manager {
             sb.append("\n");
         }
         return sb.toString();
+    }
+
+    public static <T> T getById(Class<? extends T> clazz, long id) {
+        T obj = null;
+        try (Session session = factory.openSession()) {
+            Transaction tx = session.beginTransaction();
+            try {
+                obj = session.get(clazz, id);
+                
+                // IMPORTANT: Si volem accedir a col·leccions LAZY fora de la sessió,
+                // cal inicialitzar-les aquí. Exemple:
+                // if (obj instanceof Employee) {
+                //     Hibernate.initialize(((Employee) obj).getContacts());
+                //     Hibernate.initialize(((Employee) obj).getProjects());
+                // }
+                
+                if (obj != null) {
+                    System.out.println("Obtingut {} amb ID: {}" + clazz.getSimpleName() + id);
+                } else {
+                    System.out.println("No s'ha trobat {} amb ID: {}" + clazz.getSimpleName() + id);
+                }
+                tx.commit();
+            } catch (HibernateException e) {
+                if (tx != null && tx.isActive()) tx.rollback();
+                System.out.println("Error obtenint {} amb ID: {}" + clazz.getSimpleName() + id + e);
+                throw e;
+            }
+        }
+        return obj;
     }
 }
