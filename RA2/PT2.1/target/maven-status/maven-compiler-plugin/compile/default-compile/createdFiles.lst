@@ -1,5 +1,5 @@
-cat/iesesteveterradas/Main.class
-cat/iesesteveterradas/UtilsSQLite.class
-cat/iesesteveterradas/AsciiTablePrinter.class
-cat/iesesteveterradas/Taules.class
-cat/iesesteveterradas/GestioDB.class
+cat\iesesteveterradas\Main.class
+cat\iesesteveterradas\UtilsSQLite.class
+cat\iesesteveterradas\Taules.class
+cat\iesesteveterradas\AsciiTablePrinter.class
+cat\iesesteveterradas\GestioDB.class

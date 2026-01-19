@@ -29,10 +29,10 @@ public class testAutor{
     @Test
     void testAutorBuit() {
         Autor autor = new Autor();
-        assertNull(autor.getAutorId());
-        assertNull(autor.getNom());
-        assertNotNull(autor.getLlibres());
-        assertTrue(autor.getLlibres().isEmpty());
+        assertNull(autor.getAutorId(),"L'id del autor hauria de ser null");
+        assertNull(autor.getNom(),"El nom de l'autor hauria de ser null");
+        assertNotNull(autor.getLlibres(),"La llista de llibres no hauria de ser null");
+        assertTrue(autor.getLlibres().isEmpty(),"La llista de llibres hauria de ser buida");
     }
 
     @Test
