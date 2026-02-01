@@ -1,0 +1,39 @@
+{
+  "analisis": [
+    {
+      "imatge": {
+        "nomFitxer": "03d7fc0888.jpg"
+      },
+      "analisi": {
+        "nom_comu": "Antílope de Przewalski",
+        "nom_cientific": "Przewalski's horse",
+        "taxonomia": {
+          "classe": "Mammalia",
+          "ordre": "Perissodactyla",
+          "familia": "Equidae"
+        },
+        "habitat": {
+          "tipus": "Grassland",
+          "regioGeografica": "Central Asia",
+          "clima": "Steppe"
+        },
+        "dieta": {
+          "tipus": "Herbívora",
+          "aliments_principals": "Grass"
+        },
+        "caracteristiques_fisiques": {
+          "mida": {
+            "altura_mitjana_cm": 100,
+            "pes_mitja_kg": 300
+          },
+          "colors_predominants": "Beige, white",
+          "trets_distintius": "Long legs, curved horns"
+        },
+        "estat_conservacio": {
+          "classificacio_IUCN": "Vulnerable",
+          "amenaces_principals": "Hunting, habitat loss"
+        }
+      }
+    }
+  ]
+}

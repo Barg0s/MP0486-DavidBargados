@@ -138,7 +138,16 @@ async function main() {
                     console.log(`Mida de la imatge en Base64: ${base64String.length} caràcters`);
                     
                     // Definim el prompt per a Ollama
-                    const prompt = "Identifica quin tipus d'animal apareix a la imatge i La informació que volem obtenir és Nom de l’animal.Classificació taxonòmica (mamífer, au, rèptil, etc.)Hàbitat natural, Dieta,Característiques físiques (mida, color, trets distintius),Estat de conservació.Només genera JSON valid,sense text adicional.";
+                    const prompt = `Identifica quin tipus d'animal apareix a la imatge en format JSON
+                     La informació que volem obtenir és:
+                        - nom_comu
+                        - nom_cientific (si es conegut)
+                        - taxonomia: classe, ordre, familia
+                        - habitat: tipus, regioGeografica, clima
+                        - dieta: tipus, aliments_principals
+                        - caracteristiques_fisiques: mida (altura_mitjana_cm, pes_mitja_kg), colors_predominants, trets_distintius
+                        - estat_conservacio: classificacio_IUCN, amenaces_principals.
+                    Només genera JSON valid,sense text adicional.`;
                     console.log('Prompt:', prompt);
                     
                     // Fem la petició a Ollama amb la imatge i el prompt
@@ -149,10 +158,21 @@ async function main() {
                         // Si hem rebut resposta, la mostrem
                         console.log(`\nResposta d'Ollama per ${imageFile}:`);
                         console.log(response);
-                        const sortida = {
-                            "analisis": []
+
+                        let resposta = response.trim()
+                                            .replace(/^```json\s*/, '')  
+                                            .replace(/```$/, ''); 
+                        let net;
+                        net = JSON.parse(resposta)
+                        const output = {
+                            analisis: [
+                                {
+                                imatge: {nomFitxer: imageFile},
+                                analisi: net}
+                            ]
                         }
-                    fs.writeFile('exercici3-resposta.json',response,'utf-8')
+
+                    await fs.writeFile('exercici3-resposta.json',JSON.stringify(output, null, 2),'utf-8');
     
                     } else {
                         // Si no hem rebut resposta vàlida, loguegem l'error
