@@ -145,6 +145,24 @@ tags:
         name: Chat
         description: 'Configuració i models'
 paths:
+    /api/chat/sentiment-analysis:
+        post:
+            summary: 'Analitza el sentiment d’un missatge mitjançant IA'
+            tags:
+                - Chat
+            requestBody:
+                required: true
+                content:
+                    application/json:
+                        schema:
+                            type: object
+                            properties:
+                                text:
+                                    type: string
+                                    example: 'Aquest servei és molt dolent'
+            responses:
+                '201':
+                    description: 'Resultat de l’anàlisi i guardat en BD'
     /api/chat/prompt:
         post:
             summary: 'Crear o afegir prompt a una conversa'

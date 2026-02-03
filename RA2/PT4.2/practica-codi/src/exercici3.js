@@ -172,7 +172,7 @@ async function main() {
                             ]
                         }
 
-                    await fs.writeFile('exercici3-resposta.json',JSON.stringify(output, null, 2),'utf-8');
+                    await fs.writeFile('data/exercici3-resposta.json',JSON.stringify(output, null, 2),'utf-8');
     
                     } else {
                         // Si no hem rebut resposta vàlida, loguegem l'error

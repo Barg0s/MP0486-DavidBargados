@@ -19,6 +19,7 @@ const { sequelize } = require('./src/config/database');
 const errorHandler = require('./src/middleware/errorHandler');
 const chatRoutes = require('./src/routes/chatRoutes');
 const { logger, expressLogger } = require('./src/config/logger');
+const sentimentRoutes = require('./src/routes/analysisSentimentRoutes');
 
 // Crear instància d'Express
 const app = express();
@@ -71,6 +72,8 @@ app.use(expressLogger);
 
 // Registre de les rutes principals
 app.use('/api/chat', chatRoutes);
+app.use('/api/chat', sentimentRoutes);
+
 
 // Gestió centralitzada d'errors
 app.use(errorHandler);
