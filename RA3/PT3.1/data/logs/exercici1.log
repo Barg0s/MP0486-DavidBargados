@@ -1,0 +1,7 @@
+{"level":"info","message":"Connectat a MongoDB","service":"user-service"}
+{"level":"info","message":"Llegint el fitxer XML...","service":"user-service"}
+{"level":"info","message":"Processant les dades...","service":"user-service"}
+{"level":"info","message":"Eliminant dades existents...","service":"user-service"}
+{"level":"info","message":"Inserint dades a MongoDB...","service":"user-service"}
+{"level":"info","message":"4512 documents inserits correctament.","service":"user-service"}
+{"level":"info","message":"Connexió a MongoDB tancada","service":"user-service"}

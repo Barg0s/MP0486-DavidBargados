@@ -1,10 +1,32 @@
 const fs = require('fs');
 const path = require('path');
 const { MongoClient } = require('mongodb');
+
+const winston = require('winston');
 const xml2js = require('xml2js');
 require('dotenv').config();
+const logsDir = path.join(__dirname, '../../data/logs');
 
 
+const logger = winston.createLogger({ //https://www.npmjs.com/package/winston
+  level: 'info',
+  format: winston.format.json(),
+  defaultMeta: { service: 'user-service' },
+  transports: [
+    //
+    // - Write all logs with importance level of `error` or higher to `error.log`
+    //   (i.e., error, fatal, but not other levels)
+    //
+    new winston.transports.File({ 
+      filename: path.join(logsDir, 'error.log'),
+      level: 'error'
+    }),    //
+    // - Write all logs with importance level of `info` or higher to `combined.log`
+    //   (i.e., fatal, error, warn, and info, but not trace)
+    //
+    new winston.transports.File({ filename: path.join(logsDir,'exercici1.log')}),
+  ],
+});
 const xmlFilePath = path.join(__dirname, '../../data/Posts.xml');
 async function parseXMLFile(filePath) {
   try {
@@ -38,9 +60,9 @@ function processCoffeeData(data) {
       Id: row.Id,
       PostTypeId: row.PostTypeId,
       AcceptedAnswerId: row.AcceptedAnswerId,
-      CreationDate: row.CreationDate,
-      Score: row.Score,
-      ViewCount: row.ViewCount,
+      CreationDate: new Date(row.CreationDate),
+      Score: parseInt(row.Score),
+      ViewCount: parseInt(row.ViewCount),
       Body: row.Body,
       OwnerUserId: row.OwnerUserId || null,
       LastActivityDate: row.LastActivityDate ,
@@ -61,35 +83,46 @@ async function loadDataToMongoDB() {
 
   try {
     await client.connect();
-    console.log('Conectado a MongoDB');
+    logger.info('Connectat a MongoDB')
 
     const database = client.db('coffee_db');
     const collection = database.collection('coffee');
+    
 
-    console.log('Llegint el fitxer XML...');
+    
+    logger.info('Llegint el fitxer XML...');
+
     const xmlData = await parseXMLFile(xmlFilePath);
 
-    console.log('Processant les dades...');
+    logger.info('Processant les dades...')
+
     let questions = processCoffeeData(xmlData);
 
-    console.log('Eliminant dades existents...');
+    logger.info('Eliminant dades existents...');
+
     await collection.deleteMany({});
  
     //TODO -> ORDENAR las 10000 preguntas con mas viewCount
     
-    console.log('Inserint dades a MongoDB...');
+    logger.info('Inserint dades a MongoDB...');
+
     const result = await collection.insertMany(questions);
 
-    console.log(`${result.insertedCount} documents inserits correctament.`);
-    console.log('Dades carregades amb èxit!');
+    logger.info(`${result.insertedCount} documents inserits correctament.`);
 
 
   } catch (error) {
-    console.error('Error carregant les dades a MongoDB:', error);
+
+    logger.error('Error carregant les dades a MongoDB:', error);
   } finally {
     await client.close();
-    console.log('Connexió a MongoDB tancada');
+    logger.info('Connexió a MongoDB tancada')
+
   }
 }
+
+  logger.add(new winston.transports.Console({
+    format: winston.format.simple(),
+  }));
 
 loadDataToMongoDB();
