@@ -7,6 +7,7 @@ const xml2js = require('xml2js');
 require('dotenv').config();
 const logsDir = path.join(__dirname, '../../data/logs');
 
+//docker-compose up -d 
 
 const logger = winston.createLogger({ //https://www.npmjs.com/package/winston
   level: 'info',
@@ -62,7 +63,7 @@ function processCoffeeData(data) {
       AcceptedAnswerId: row.AcceptedAnswerId,
       CreationDate: new Date(row.CreationDate),
       Score: parseInt(row.Score),
-      ViewCount: parseInt(row.ViewCount),
+      ViewCount: parseInt(row.ViewCount) || 0,
       Body: row.Body,
       OwnerUserId: row.OwnerUserId || null,
       LastActivityDate: row.LastActivityDate ,
