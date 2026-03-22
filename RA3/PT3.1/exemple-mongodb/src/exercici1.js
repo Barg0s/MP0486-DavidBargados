@@ -53,10 +53,10 @@ async function parseXMLFile(filePath) {
 }
 
 
-function processCoffeeData(data) {
-  const coffees = Array.isArray(data.posts.row) ? data.posts.row : [data.posts.row];
+function processAIData(data) {
+  const ai = Array.isArray(data.posts.row) ? data.posts.row : [data.posts.row];
 
-  return coffees.map(row => ({
+  return ai.map(row => ({
     question: {
       Id: row.Id,
       PostTypeId: row.PostTypeId,
@@ -86,8 +86,8 @@ async function loadDataToMongoDB() {
     await client.connect();
     logger.info('Connectat a MongoDB')
 
-    const database = client.db('coffee_db');
-    const collection = database.collection('coffee');
+    const database = client.db('ai_db');
+    const collection = database.collection('ai');
     
 
     
@@ -97,17 +97,22 @@ async function loadDataToMongoDB() {
 
     logger.info('Processant les dades...')
 
-    let questions = processCoffeeData(xmlData);
+    let questions = processAIData(xmlData);
 
     logger.info('Eliminant dades existents...');
 
     await collection.deleteMany({});
  
-    //TODO -> ORDENAR las 10000 preguntas con mas viewCount
     
     logger.info('Inserint dades a MongoDB...');
 
-    const result = await collection.insertMany(questions);
+    //https://stackoverflow.com/questions/52030110/sorting-strings-in-descending-order-in-javascript-most-efficiently
+    
+    questions.sort((a, b) => b.question.ViewCount - a.question.ViewCount);
+
+    const coleccio10000 = questions.slice(0, 10000);
+
+    const result = await collection.insertMany(coleccio10000);
 
     logger.info(`${result.insertedCount} documents inserits correctament.`);
 

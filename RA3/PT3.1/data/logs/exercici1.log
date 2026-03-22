@@ -3,26 +3,20 @@
 {"level":"info","message":"Processant les dades...","service":"user-service"}
 {"level":"info","message":"Eliminant dades existents...","service":"user-service"}
 {"level":"info","message":"Inserint dades a MongoDB...","service":"user-service"}
-{"level":"info","message":"4512 documents inserits correctament.","service":"user-service"}
+{"level":"error","message":"Error carregant les dades a MongoDB: Cannot read properties of undefined (reading 'ViewCount')","service":"user-service","stack":"TypeError: Cannot read properties of undefined (reading 'ViewCount')\n    at C:\\Users\\David\\Desktop\\git\\DAM2\\MP06-BargadosD\\RA3\\PT3.1\\exemple-mongodb\\src\\exercici1.js:116:39\n    at Array.sort (<anonymous>)\n    at loadDataToMongoDB (C:\\Users\\David\\Desktop\\git\\DAM2\\MP06-BargadosD\\RA3\\PT3.1\\exemple-mongodb\\src\\exercici1.js:116:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"}
 {"level":"info","message":"Connexió a MongoDB tancada","service":"user-service"}
 {"level":"info","message":"Connectat a MongoDB","service":"user-service"}
 {"level":"info","message":"Llegint el fitxer XML...","service":"user-service"}
 {"level":"info","message":"Processant les dades...","service":"user-service"}
 {"level":"info","message":"Eliminant dades existents...","service":"user-service"}
 {"level":"info","message":"Inserint dades a MongoDB...","service":"user-service"}
-{"level":"info","message":"4512 documents inserits correctament.","service":"user-service"}
+{"level":"error","message":"Error carregant les dades a MongoDB: Cannot read properties of undefined (reading 'ViewCount')","service":"user-service","stack":"TypeError: Cannot read properties of undefined (reading 'ViewCount')\n    at C:\\Users\\David\\Desktop\\git\\DAM2\\MP06-BargadosD\\RA3\\PT3.1\\exemple-mongodb\\src\\exercici1.js:116:39\n    at Array.sort (<anonymous>)\n    at loadDataToMongoDB (C:\\Users\\David\\Desktop\\git\\DAM2\\MP06-BargadosD\\RA3\\PT3.1\\exemple-mongodb\\src\\exercici1.js:116:11)\n    at process.processTicksAndRejections (node:internal/process/task_queues:95:5)"}
 {"level":"info","message":"Connexió a MongoDB tancada","service":"user-service"}
 {"level":"info","message":"Connectat a MongoDB","service":"user-service"}
 {"level":"info","message":"Llegint el fitxer XML...","service":"user-service"}
 {"level":"info","message":"Processant les dades...","service":"user-service"}
 {"level":"info","message":"Eliminant dades existents...","service":"user-service"}
 {"level":"info","message":"Inserint dades a MongoDB...","service":"user-service"}
-{"level":"info","message":"4512 documents inserits correctament.","service":"user-service"}
+{"level":"info","message":"10000 documents inserits correctament.","service":"user-service"}
 {"level":"info","message":"Connexió a MongoDB tancada","service":"user-service"}
 {"level":"info","message":"Connectat a MongoDB","service":"user-service"}
-{"level":"info","message":"Llegint el fitxer XML...","service":"user-service"}
-{"level":"info","message":"Processant les dades...","service":"user-service"}
-{"level":"info","message":"Eliminant dades existents...","service":"user-service"}
-{"level":"info","message":"Inserint dades a MongoDB...","service":"user-service"}
-{"level":"info","message":"4512 documents inserits correctament.","service":"user-service"}
-{"level":"info","message":"Connexió a MongoDB tancada","service":"user-service"}
