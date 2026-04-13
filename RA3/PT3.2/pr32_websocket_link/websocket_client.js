@@ -1,6 +1,6 @@
 import WebSocket from 'ws';
 import readline from 'readline';
-
+//CLIENT
 const ws = new WebSocket('ws://localhost:8000');
 
 let pos = { x: 0, y: 0 };
@@ -18,7 +18,6 @@ process.stdin.on('keypress', (str, key) => {
         case 'down':
             pos.y--;
             direccio = "avall";
-
             break;
         case 'left':
             pos.x--;
@@ -34,7 +33,7 @@ process.stdin.on('keypress', (str, key) => {
 
     console.log("nova posició:", pos);
 
-    if (ws.readyState === ws.OPEN) {
+    if (ws.readyState === WebSocket.OPEN) {
       const missatge = {
         type : "moviment",
         posicio : pos,
@@ -50,6 +49,18 @@ ws.on('open', () => {
 
 ws.on('message', (message) => {
     console.log('server:', message.toString());
+    const missatge = JSON.parse(message.toString());
+
+    if (missatge.type === "resultat"){
+        console.log("La partida ha finalitzat");
+        console.log("Distancia recorreguda", missatge.distancia)
+        pos = { x: 0, y: 0 };
+ 
+    }
+});
+
+ws.on('close', () => {
+  clearTimeout(timeout);
 });
 
 ws.on('error', (err) => {

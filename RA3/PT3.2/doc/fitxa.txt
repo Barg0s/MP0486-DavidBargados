@@ -1,0 +1,6 @@
+Commands:
+docker compose up -d
+docker ps
+
+//luego entrar a localhost:3000
+/si no se ha hecho lo de loki, ir a connections y ponerlo.
