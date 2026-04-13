@@ -61,12 +61,12 @@
         };
 
         await collection.insertOne(movement);
-        logger.info("Moviment guardat", {
-          partidaId: partidaId.toString(),
-          x: data.posicio.x,
-          y: data.posicio.y,
-          direccio: data.direccio
-        });
+        /*logger.info("Moviment guardat", {
+              x: data.posicio.x,
+              y: data.posicio.y,
+              direccio: data.direccio
+            });*/
+          logger.info("Moviment insertat en X: " + data.posicio.x + " Y: " + data.posicio.y)
 
         clearTimeout(timeout);
 
@@ -77,7 +77,7 @@
             const dy = lastPos.y - startPos.y;
 
             const distancia = Math.sqrt(dx * dx + dy * dy);
-            logger.info("Distància calculada", { distancia });
+            logger.info("Distància calculada: " + distancia );
             const missatge = {
               type : "resultat",
               distancia : distancia
