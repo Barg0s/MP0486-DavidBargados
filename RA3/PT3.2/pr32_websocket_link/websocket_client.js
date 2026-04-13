@@ -53,7 +53,7 @@ ws.on('message', (message) => {
 
     if (missatge.type === "resultat"){
         console.log("La partida ha finalitzat");
-        console.log("Distancia recorreguda", missatge.distancia)
+        console.log("Distancia recorreguda" , missatge.distancia)
         pos = { x: 0, y: 0 };
  
     }
