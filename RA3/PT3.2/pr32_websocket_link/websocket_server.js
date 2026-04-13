@@ -38,8 +38,8 @@
   wss.on('connection', (ws) => {
     logger.info("Client connectat");
     let partidaId = new ObjectId();
-    let startPos = null;
-    let lastPos = null;
+    let posicioInicial = null;
+    let ultimaPosicio = null;
     let timeout;
 
 
@@ -47,10 +47,10 @@
       try {
         const data = JSON.parse(message);
         const posicioActual = data.posicio;
-        if (startPos === null){
-          startPos = posicioActual;
+        if (posicioInicial === null){
+          posicioInicial = posicioActual;
         }
-        lastPos = posicioActual;
+        ultimaPosicio = posicioActual;
 
 
         const movement = {
@@ -72,9 +72,9 @@
 
         timeout = setTimeout(() => {
           logger.info("Partida finalitzada")
-          if (startPos && lastPos){
-            const dx = lastPos.x - startPos.x;
-            const dy = lastPos.y - startPos.y;
+          if (posicioInicial && ultimaPosicio){
+            const dx = ultimaPosicio.x - posicioInicial.x;
+            const dy = ultimaPosicio.y - posicioInicial.y;
 
             const distancia = Math.sqrt(dx * dx + dy * dy);
             logger.info("Distància calculada: " + distancia );
@@ -83,8 +83,8 @@
               distancia : distancia
             }
             ws.send(JSON.stringify(missatge));
-            startPos = null;
-            lastPos = null;
+            posicioInicial = null;
+            ultimaPosicio = null;
             partidaId = new ObjectId(); 
         }
         },10000);
