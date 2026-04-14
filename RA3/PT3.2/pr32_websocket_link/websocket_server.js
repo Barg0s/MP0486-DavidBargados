@@ -2,9 +2,17 @@
   import { MongoClient, ObjectId, Timestamp } from "mongodb";
   import winston from "winston";
   import LokiTransport from "winston-loki";
+import { parse } from "path";
   //SERVER
+  const uri = process.env.MONGODB_URI || 'mongodb://root:password@localhost:27017/';
 
-  const wss = new WebSocketServer({ port: 8000 });
+  const RECONEXIO_MS = parseInt(process.env.RECONEXIO_MS || '3000', 10);
+  const WS_PORT      = parseInt(process.env.WS_PORT       || '8000');
+  const DB_NAME      = process.env.DB_NAME                || 'jocDB';
+  const COLLECTION   = process.env.COLLECTION_NAME        || 'moviments';
+  const LOKI_URL     = process.env.LOKI_URL               || 'http://localhost:3100';
+  const INACTIVITY_MS = parseInt(process.env.INACTIVITY_TIMEOUT_MS || '10000');
+  const wss = new WebSocketServer({ port: WS_PORT });
 
   const logger = winston.createLogger({
     level: "info",
@@ -13,27 +21,48 @@
       new winston.transports.Console(),
       new winston.transports.File({filename: "server.log"}),
       new LokiTransport({
-        host: "http://localhost:3100",
+        host: LOKI_URL,
         labels: { app: "node-server" }
       })
     ]
   });
 
   // Connexió MongoDB
-  const uri = process.env.MONGODB_URI || 'mongodb://root:password@localhost:27017/';
+
   const client = new MongoClient(uri);
+
 
   let collection;
 
-  async function connectDB() {
-    await client.connect();
-    const db = client.db("jocDB");
-    collection = db.collection("moviments");
-    await collection.deleteMany({});
-
-    logger.info("Connectat a MongoDB");
+  function esMissatgeValid(data) {
+    return (
+      data &&
+      data.type === "moviment" &&
+      data.posicio &&
+      typeof data.posicio.x === "number" &&
+      typeof data.posicio.y === "number" &&
+      typeof data.direccio === "string"
+    );
   }
 
+  async function connectDB() {
+    try {
+      await client.connect();
+
+      const db = client.db(DB_NAME);
+      collection = db.collection(COLLECTION);
+
+      await collection.deleteMany({});
+
+      logger.info("Connectat a MongoDB");
+    } catch (error) {
+      logger.error("Error connectant a MongoDB", {
+        message: error.message
+      });
+
+      setTimeout(connectDB, RECONEXIO_MS);
+    }
+  }
   connectDB();
   wss.on('connection', (ws) => {
     logger.info("Client connectat");
@@ -41,11 +70,26 @@
     let posicioInicial = null;
     let ultimaPosicio = null;
     let timeout;
+    ws.send(JSON.stringify({
+    type: "connexio",
+    gameId: partidaId.toString()
+    }));
 
 
     ws.on('message', async (message) => {
       try {
         const data = JSON.parse(message);
+              if (!esMissatgeValid(data)) {
+              logger.warn("Missatge invàlid rebut", { data });
+
+        await collection.insertOne({
+          type: "invalid",
+          raw: data,
+          timestamp: new Date()
+        });
+
+        return;
+        }
         const posicioActual = data.posicio;
         if (posicioInicial === null){
           posicioInicial = posicioActual;
@@ -64,7 +108,7 @@
 
         await collection.insertOne(movement);
 
-          logger.info("Moviment insertat en X: " + data.posicio.x + " Y: " + data.posicio.y)
+        logger.info("Moviment inserit", {x: data.posicio.x,y: data.posicio.y,partidaId: partidaId.toString()});
 
         clearTimeout(timeout);
 
@@ -84,7 +128,8 @@
             logger.info("Distància calculada: " + distancia );
             const missatge = {
               type : "resultat",
-              distancia : distancia
+              distancia : distancia,
+              partidaId: partidaId.toString()
             }
             await collection.insertOne(distanciaSave);
 
@@ -93,7 +138,11 @@
             ultimaPosicio = null;
             partidaId = new ObjectId(); 
         }
-        },10000);
+            ws.send(JSON.stringify({
+              type: "novaPartida",
+              gameId: partidaId.toString()
+            }));
+        },INACTIVITY_MS);
 
 
       } catch (error) {
@@ -104,6 +153,7 @@
     });
 
     ws.on('close', () => {
+      clearTimeout(timeout);
       logger.info("Client desconnectat");
     });
   });

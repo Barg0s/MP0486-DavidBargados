@@ -13,10 +13,25 @@ function connect() {
     ws.on('open', () => {
         console.log('Connectat al server');
         tries = 0;
-    });
+            });
 
     ws.on('message', (message) => {
-        console.log('server:', message.toString());
+        const data = JSON.parse(message.toString());
+        switch (data.type) {
+            case "connexio":
+                console.log("Connectat. Partida ID:", data.gameId);
+                break;
+
+            case "novaPartida":
+                console.log("Nova partida iniciada. ID:", data.gameId);
+                pos = { x: 0, y: 0 };
+                direccio = "none";
+                break;
+
+            case "resultat":
+                console.log("Partida finalitzada. Distància:", data.distancia);
+                break;
+        }
     });
 
     ws.on('close', () => {
