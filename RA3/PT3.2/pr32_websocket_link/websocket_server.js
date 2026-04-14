@@ -1,5 +1,5 @@
   import { WebSocketServer } from "ws";
-  import { MongoClient, ObjectId } from "mongodb";
+  import { MongoClient, ObjectId, Timestamp } from "mongodb";
   import winston from "winston";
   import LokiTransport from "winston-loki";
   //SERVER
@@ -57,31 +57,37 @@
           partidaId,
           x: data.posicio.x,
           y: data.posicio.y,
-          direccio: data.direccio
+          direccio: data.direccio,
+          timestamp: new Date()
+
         };
 
         await collection.insertOne(movement);
-        /*logger.info("Moviment guardat", {
-              x: data.posicio.x,
-              y: data.posicio.y,
-              direccio: data.direccio
-            });*/
+
           logger.info("Moviment insertat en X: " + data.posicio.x + " Y: " + data.posicio.y)
 
         clearTimeout(timeout);
 
-        timeout = setTimeout(() => {
+        timeout = setTimeout(async () => {
           logger.info("Partida finalitzada")
           if (posicioInicial && ultimaPosicio){
             const dx = ultimaPosicio.x - posicioInicial.x;
             const dy = ultimaPosicio.y - posicioInicial.y;
 
             const distancia = Math.sqrt(dx * dx + dy * dy);
+            const distanciaSave = {
+              partidaId,
+              distancia: distancia,
+              timestamp: new Date()
+            };
+
             logger.info("Distància calculada: " + distancia );
             const missatge = {
               type : "resultat",
               distancia : distancia
             }
+            await collection.insertOne(distanciaSave);
+
             ws.send(JSON.stringify(missatge));
             posicioInicial = null;
             ultimaPosicio = null;

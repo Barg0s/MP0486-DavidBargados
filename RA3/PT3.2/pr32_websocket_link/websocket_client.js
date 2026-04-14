@@ -1,10 +1,40 @@
 import WebSocket from 'ws';
 import readline from 'readline';
-//CLIENT
-const ws = new WebSocket('ws://localhost:8000');
+
+let ws;
+let tries = 0;
 
 let pos = { x: 0, y: 0 };
 let direccio = "none";
+
+function connect() {
+    ws = new WebSocket('ws://localhost:8000');
+
+    ws.on('open', () => {
+        console.log('Connectat al server');
+        tries = 0;
+    });
+
+    ws.on('message', (message) => {
+        console.log('server:', message.toString());
+    });
+
+    ws.on('close', () => {
+        if (tries < 2) {
+            tries++;
+            console.log("Reintentant connexió");
+            setTimeout(connect, 3000);
+        } else {
+            console.error("No es pot connectar al server");
+        }
+    });
+
+    ws.on('error', (err) => {
+        console.error('Error:', err.message);
+    });
+}
+
+connect();
 
 readline.emitKeypressEvents(process.stdin);
 process.stdin.setRawMode(true);
@@ -33,36 +63,12 @@ process.stdin.on('keypress', (str, key) => {
 
     console.log("nova posició:", pos);
 
-    if (ws.readyState === WebSocket.OPEN) {
-      const missatge = {
-        type : "moviment",
-        posicio : pos,
-        direccio : direccio
-      }
+    if (ws && ws.readyState === WebSocket.OPEN) {
+        const missatge = {
+            type: "moviment",
+            posicio: pos,
+            direccio: direccio
+        };
         ws.send(JSON.stringify(missatge));
     }
-});
-
-ws.on('open', () => {
-    console.log('Connectat al server');
-});
-
-ws.on('message', (message) => {
-    console.log('server:', message.toString());
-    const missatge = JSON.parse(message.toString());
-
-    if (missatge.type === "resultat"){
-        console.log("La partida ha finalitzat");
-        console.log("Distancia recorreguda" , missatge.distancia)
-        pos = { x: 0, y: 0 };
- 
-    }
-});
-
-ws.on('close', () => {
-  clearTimeout(timeout);
-});
-
-ws.on('error', (err) => {
-    console.error('Error:', err);
 });

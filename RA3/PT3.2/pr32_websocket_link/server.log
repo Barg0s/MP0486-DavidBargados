@@ -1041,3 +1041,70 @@ info: Client desconnectat
 {"level":"info","message":"Moviment insertat en X: 29 Y: 36"}
 {"level":"info","message":"Partida finalitzada"}
 {"level":"info","message":"Distància calculada: 45.45327270945405"}
+{"level":"info","message":"Servidor WebSocket a localhost:8000"}
+{"level":"info","message":"Connectat a MongoDB"}
+{"level":"info","message":"Client connectat"}
+{"level":"info","message":"Moviment insertat en X: 0 Y: 1"}
+{"level":"info","message":"Moviment insertat en X: 0 Y: 2"}
+{"level":"info","message":"Moviment insertat en X: 0 Y: 1"}
+{"level":"info","message":"Moviment insertat en X: 0 Y: 2"}
+{"level":"info","message":"Client desconnectat"}
+{"level":"info","message":"Client connectat"}
+{"level":"info","message":"Servidor WebSocket a localhost:8000"}
+{"level":"info","message":"Connectat a MongoDB"}
+{"level":"info","message":"Client connectat"}
+{"level":"info","message":"Moviment insertat en X: 0 Y: 1"}
+{"level":"info","message":"Moviment insertat en X: 0 Y: 2"}
+{"level":"info","message":"Moviment insertat en X: 0 Y: 3"}
+{"level":"info","message":"Moviment insertat en X: 0 Y: 4"}
+{"level":"info","message":"Moviment insertat en X: 1 Y: 4"}
+{"level":"info","message":"Moviment insertat en X: 2 Y: 4"}
+{"level":"info","message":"Moviment insertat en X: 3 Y: 4"}
+{"level":"info","message":"Moviment insertat en X: 4 Y: 4"}
+{"level":"info","message":"Moviment insertat en X: 5 Y: 4"}
+{"level":"info","message":"Moviment insertat en X: 6 Y: 4"}
+{"level":"info","message":"Moviment insertat en X: 7 Y: 4"}
+{"level":"info","message":"Moviment insertat en X: 8 Y: 4"}
+{"level":"info","message":"Moviment insertat en X: 9 Y: 4"}
+{"level":"info","message":"Moviment insertat en X: 10 Y: 4"}
+{"level":"info","message":"Moviment insertat en X: 11 Y: 4"}
+{"level":"info","message":"Moviment insertat en X: 12 Y: 4"}
+{"level":"info","message":"Moviment insertat en X: 13 Y: 4"}
+{"level":"info","message":"Moviment insertat en X: 14 Y: 4"}
+{"level":"info","message":"Moviment insertat en X: 15 Y: 4"}
+{"level":"info","message":"Partida finalitzada"}
+{"level":"info","message":"Distància calculada: 15.297058540778355"}
+{"level":"info","message":"Servidor WebSocket a localhost:8000"}
+{"level":"info","message":"Connectat a MongoDB"}
+{"level":"info","message":"Client connectat"}
+{"level":"info","message":"Moviment insertat en X: 15 Y: 5"}
+{"level":"info","message":"Moviment insertat en X: 15 Y: 6"}
+{"level":"info","message":"Moviment insertat en X: 15 Y: 7"}
+{"level":"info","message":"Moviment insertat en X: 15 Y: 8"}
+{"level":"info","message":"Moviment insertat en X: 15 Y: 9"}
+{"level":"info","message":"Moviment insertat en X: 15 Y: 10"}
+{"level":"info","message":"Moviment insertat en X: 15 Y: 11"}
+{"level":"info","message":"Moviment insertat en X: 15 Y: 12"}
+{"level":"info","message":"Moviment insertat en X: 15 Y: 13"}
+{"level":"info","message":"Moviment insertat en X: 15 Y: 14"}
+{"level":"info","message":"Partida finalitzada"}
+{"level":"info","message":"Distància calculada: 9"}
+{"level":"info","message":"Moviment insertat en X: 15 Y: 15"}
+{"level":"info","message":"Moviment insertat en X: 15 Y: 16"}
+{"level":"info","message":"Moviment insertat en X: 15 Y: 17"}
+{"level":"info","message":"Moviment insertat en X: 15 Y: 18"}
+{"level":"info","message":"Moviment insertat en X: 15 Y: 19"}
+{"level":"info","message":"Moviment insertat en X: 15 Y: 20"}
+{"level":"info","message":"Moviment insertat en X: 15 Y: 21"}
+{"level":"info","message":"Moviment insertat en X: 15 Y: 22"}
+{"level":"info","message":"Moviment insertat en X: 15 Y: 23"}
+{"level":"info","message":"Moviment insertat en X: 15 Y: 24"}
+{"level":"info","message":"Moviment insertat en X: 15 Y: 25"}
+{"level":"info","message":"Moviment insertat en X: 15 Y: 26"}
+{"level":"info","message":"Moviment insertat en X: 15 Y: 27"}
+{"level":"info","message":"Moviment insertat en X: 15 Y: 28"}
+{"level":"info","message":"Moviment insertat en X: 16 Y: 28"}
+{"level":"info","message":"Moviment insertat en X: 17 Y: 28"}
+{"level":"info","message":"Partida finalitzada"}
+{"level":"info","message":"Distància calculada: 13.152946437965905"}
+{"level":"info","message":"Client desconnectat"}
