@@ -2,10 +2,10 @@ import WebSocket from 'ws';
 import readline from 'readline';
 
 let ws;
-let tries = 0;
+let intents = 0;
 
 let pos = { x: 0, y: 0 };
-let direccio = "none";
+let direccio = "cap";
 let conectat = false;
 
 function connect() {
@@ -13,8 +13,8 @@ function connect() {
 
     ws.on('open', () => {
         console.log('Connectat al server');
-        tries = 0;
-            });
+        intents = 0;
+        });
 
     ws.on('message', (message) => {
         const data = JSON.parse(message.toString());
@@ -27,7 +27,7 @@ function connect() {
             case "novaPartida":
                 console.log("Nova partida iniciada. ID:", data.gameId);
                 pos = { x: 0, y: 0 };
-                direccio = "none";
+                direccio = "cap";
                 break;
 
             case "resultat":
@@ -40,8 +40,8 @@ function connect() {
     });
 
     ws.on('close', () => {
-        if (tries < 2) {
-            tries++;
+        if (intents < 2) {
+            intents++;
             console.log("Reintentant connexió");
             conectat = false;
             pos = { x: 0, y: 0 };
@@ -49,6 +49,7 @@ function connect() {
         } else {
             console.error("No es pot connectar al server");
             conectat = false;
+            
         }
     });
 

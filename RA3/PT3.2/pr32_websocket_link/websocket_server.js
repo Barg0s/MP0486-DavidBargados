@@ -11,12 +11,13 @@
 
   const RECONEXIO_MS = process.env.RECONEXIO_MS;
   const WS_PORT      = process.env.WS_PORT;
-  const DB_NAME      = process.env.NOM_DB               
+  const NOM_DB      = process.env.NOM_DB               
   const COLLECTION   = process.env.NOM_COLLECIO;
   const LOKI_URL     = process.env.LOKI_URL;
-  const INACTIVITY_MS = process.env.TEMPS_INACTIVITAT;
+  const TEMPS_INACTIVITAT = process.env.TEMPS_INACTIVITAT;
   const wss = new WebSocketServer({ port: WS_PORT });
 
+  
   const logger = winston.createLogger({
     level: "info",
     format: winston.format.json(),
@@ -34,17 +35,12 @@
   
   const client = new MongoClient(uri);
 
-
   let collection;
 
   function esMissatgeValid(data) {
     return (
       data &&
-      data.type === "moviment" &&
-      data.posicio &&
-      typeof data.posicio.x === "number" &&
-      typeof data.posicio.y === "number" &&
-      typeof data.direccio === "string"
+      data.type === "moviment" && data.posicio && typeof data.direccio === "string"
     );
   }
 
@@ -52,7 +48,7 @@
     try {
       await client.connect();
 
-      const db = client.db(DB_NAME);
+      const db = client.db(NOM_DB);
       collection = db.collection(COLLECTION);
 
       await collection.deleteMany({});
@@ -67,16 +63,16 @@
     }
   }
   connectDB();
-  wss.on('connection', (ws) => {
-    logger.info("Client connectat");
-    let partidaId = new ObjectId();
-    let posicioInicial = null;
-    let ultimaPosicio = null;
-    let timeout;
-    ws.send(JSON.stringify({
-    type: "connexio",
-    gameId: partidaId.toString()
-    }));
+    wss.on('connection', (ws) => {
+      logger.info("Client connectat");
+      let partidaId = new ObjectId();
+      let posicioInicial = null;
+      let ultimaPosicio = null;
+      let timeout;
+      ws.send(JSON.stringify({
+      type: "connexio",
+      gameId: partidaId.toString()
+      }));
 
 
     ws.on('message', async (message) => {
@@ -153,7 +149,7 @@
               type: "novaPartida",
               gameId: partidaId.toString()
             }));
-        },INACTIVITY_MS);
+        },TEMPS_INACTIVITAT);
 
 
       } catch (error) {
