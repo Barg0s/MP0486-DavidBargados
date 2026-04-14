@@ -6,6 +6,7 @@ let tries = 0;
 
 let pos = { x: 0, y: 0 };
 let direccio = "none";
+let conectat = false;
 
 function connect() {
     ws = new WebSocket('ws://localhost:8000');
@@ -20,6 +21,7 @@ function connect() {
         switch (data.type) {
             case "connexio":
                 console.log("Connectat. Partida ID:", data.gameId);
+                conectat = true;
                 break;
 
             case "novaPartida":
@@ -38,9 +40,11 @@ function connect() {
         if (tries < 2) {
             tries++;
             console.log("Reintentant connexió");
+            conectat = false;
             setTimeout(connect, 3000);
         } else {
             console.error("No es pot connectar al server");
+            conectat = false;
         }
     });
 
@@ -55,6 +59,10 @@ readline.emitKeypressEvents(process.stdin);
 process.stdin.setRawMode(true);
 
 process.stdin.on('keypress', (str, key) => {
+    if (key.ctrl && key.name === 'c') {
+        process.exit();
+    }
+    if (!conectat) return;
     switch (key.name) {
         case 'up':
             pos.y++;
@@ -72,8 +80,6 @@ process.stdin.on('keypress', (str, key) => {
             pos.x++;
             direccio = "dreta";
             break;
-        case 'c':
-            if (key.ctrl) process.exit();
     }
 
     console.log("nova posició:", pos);

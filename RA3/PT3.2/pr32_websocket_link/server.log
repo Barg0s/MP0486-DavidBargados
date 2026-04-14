@@ -1356,3 +1356,82 @@ info: Client desconnectat
 {"level":"warn","message":"Mongo no disponible, missatge no guardat"}
 {"level":"info","message":"Moviment inserit","partidaId":"69de1461d9dd31731d1293e1","x":0,"y":7}
 {"level":"info","message":"Partida finalitzada"}
+{"level":"info","message":"Servidor WebSocket a localhost:8000"}
+{"level":"info","message":"Connectat a MongoDB"}
+{"level":"info","message":"Client connectat"}
+{"level":"info","message":"Moviment inserit","partidaId":"69de6114872e5eca5e1cd354","x":0,"y":1}
+{"level":"info","message":"Moviment inserit","partidaId":"69de6114872e5eca5e1cd354","x":0,"y":2}
+{"level":"info","message":"Moviment inserit","partidaId":"69de6114872e5eca5e1cd354","x":0,"y":3}
+{"level":"info","message":"Partida finalitzada"}
+{"level":"info","message":"Distància calculada: 2"}
+{"level":"info","message":"Client desconnectat"}
+{"level":"info","message":"Client connectat"}
+{"level":"info","message":"Moviment inserit","partidaId":"69de61b1872e5eca5e1cd35a","x":0,"y":1}
+{"level":"info","message":"Moviment inserit","partidaId":"69de61b1872e5eca5e1cd35a","x":0,"y":2}
+{"level":"info","message":"Moviment inserit","partidaId":"69de61b1872e5eca5e1cd35a","x":0,"y":3}
+{"level":"info","message":"Moviment inserit","partidaId":"69de61b1872e5eca5e1cd35a","x":1,"y":3}
+{"level":"info","message":"Moviment inserit","partidaId":"69de61b1872e5eca5e1cd35a","x":2,"y":3}
+{"level":"info","message":"Moviment inserit","partidaId":"69de61b1872e5eca5e1cd35a","x":3,"y":3}
+{"level":"info","message":"Moviment inserit","partidaId":"69de61b1872e5eca5e1cd35a","x":4,"y":3}
+{"level":"info","message":"Moviment inserit","partidaId":"69de61b1872e5eca5e1cd35a","x":5,"y":3}
+{"level":"info","message":"Moviment inserit","partidaId":"69de61b1872e5eca5e1cd35a","x":6,"y":3}
+{"level":"info","message":"Moviment inserit","partidaId":"69de61b1872e5eca5e1cd35a","x":7,"y":3}
+{"level":"info","message":"Moviment inserit","partidaId":"69de61b1872e5eca5e1cd35a","x":8,"y":3}
+{"level":"info","message":"Moviment inserit","partidaId":"69de61b1872e5eca5e1cd35a","x":9,"y":3}
+{"level":"info","message":"Moviment inserit","partidaId":"69de61b1872e5eca5e1cd35a","x":10,"y":3}
+{"level":"info","message":"Moviment inserit","partidaId":"69de61b1872e5eca5e1cd35a","x":11,"y":3}
+{"level":"info","message":"Moviment inserit","partidaId":"69de61b1872e5eca5e1cd35a","x":12,"y":3}
+{"level":"info","message":"Moviment inserit","partidaId":"69de61b1872e5eca5e1cd35a","x":13,"y":3}
+{"level":"info","message":"Moviment inserit","partidaId":"69de61b1872e5eca5e1cd35a","x":14,"y":3}
+{"level":"info","message":"Partida finalitzada"}
+{"level":"info","message":"Distància calculada: 14.142135623730951"}
+{"level":"info","message":"Client desconnectat"}
+{"level":"info","message":"Client connectat"}
+{"level":"info","message":"Servidor WebSocket a localhost:8000"}
+{"level":"info","message":"Connectat a MongoDB"}
+{"level":"info","message":"Client connectat"}
+{"level":"info","message":"Moviment inserit","partidaId":"69de62f4ab33a6841c68b689","x":0,"y":0}
+{"level":"info","message":"Moviment inserit","partidaId":"69de62f4ab33a6841c68b689","x":0,"y":0}
+{"level":"info","message":"Moviment inserit","partidaId":"69de62f4ab33a6841c68b689","x":0,"y":0}
+{"level":"info","message":"Moviment inserit","partidaId":"69de62f4ab33a6841c68b689","x":0,"y":0}
+{"level":"info","message":"Moviment inserit","partidaId":"69de62f4ab33a6841c68b689","x":0,"y":0}
+{"level":"info","message":"Moviment inserit","partidaId":"69de62f4ab33a6841c68b689","x":0,"y":0}
+{"level":"info","message":"Moviment inserit","partidaId":"69de62f4ab33a6841c68b689","x":0,"y":0}
+{"level":"info","message":"Moviment inserit","partidaId":"69de62f4ab33a6841c68b689","x":0,"y":0}
+{"level":"info","message":"Partida finalitzada"}
+{"level":"info","message":"Distància calculada: 0"}
+{"level":"info","message":"Moviment inserit","partidaId":"69de6300ab33a6841c68b693","x":0,"y":0}
+{"level":"info","message":"Moviment inserit","partidaId":"69de6300ab33a6841c68b693","x":0,"y":0}
+{"level":"info","message":"Client desconnectat"}
+{"level":"info","message":"Client connectat"}
+{"level":"info","message":"Moviment inserit","partidaId":"69de634bab33a6841c68b696","x":0,"y":1}
+{"level":"info","message":"Moviment inserit","partidaId":"69de634bab33a6841c68b696","x":0,"y":2}
+{"level":"info","message":"Moviment inserit","partidaId":"69de634bab33a6841c68b696","x":0,"y":3}
+{"level":"info","message":"Moviment inserit","partidaId":"69de634bab33a6841c68b696","x":0,"y":2}
+{"level":"info","message":"Moviment inserit","partidaId":"69de634bab33a6841c68b696","x":0,"y":1}
+{"level":"info","message":"Moviment inserit","partidaId":"69de634bab33a6841c68b696","x":-1,"y":1}
+{"level":"info","message":"Servidor WebSocket a localhost:8000"}
+{"level":"info","message":"Connectat a MongoDB"}
+{"level":"info","message":"Client connectat"}
+{"level":"info","message":"Moviment inserit","partidaId":"69de635b4710530ac7b5069c","x":0,"y":1}
+{"level":"info","message":"Moviment inserit","partidaId":"69de635b4710530ac7b5069c","x":0,"y":2}
+{"level":"info","message":"Moviment inserit","partidaId":"69de635b4710530ac7b5069c","x":0,"y":3}
+{"level":"info","message":"Moviment inserit","partidaId":"69de635b4710530ac7b5069c","x":0,"y":2}
+{"level":"info","message":"Moviment inserit","partidaId":"69de635b4710530ac7b5069c","x":-1,"y":2}
+{"level":"info","message":"Moviment inserit","partidaId":"69de635b4710530ac7b5069c","x":-2,"y":2}
+{"level":"info","message":"Moviment inserit","partidaId":"69de635b4710530ac7b5069c","x":-3,"y":2}
+{"level":"info","message":"Servidor WebSocket a localhost:8000"}
+{"level":"info","message":"Connectat a MongoDB"}
+{"level":"info","message":"Client connectat"}
+{"level":"info","message":"Moviment inserit","partidaId":"69de638a112d418c19b29499","x":0,"y":1}
+{"level":"info","message":"Moviment inserit","partidaId":"69de638a112d418c19b29499","x":0,"y":2}
+{"level":"info","message":"Moviment inserit","partidaId":"69de638a112d418c19b29499","x":0,"y":3}
+{"level":"info","message":"Moviment inserit","partidaId":"69de638a112d418c19b29499","x":0,"y":4}
+{"level":"info","message":"Moviment inserit","partidaId":"69de638a112d418c19b29499","x":0,"y":3}
+{"level":"info","message":"Moviment inserit","partidaId":"69de638a112d418c19b29499","x":0,"y":2}
+{"level":"info","message":"Moviment inserit","partidaId":"69de638a112d418c19b29499","x":0,"y":3}
+{"level":"info","message":"Moviment inserit","partidaId":"69de638a112d418c19b29499","x":0,"y":2}
+{"level":"info","message":"Moviment inserit","partidaId":"69de638a112d418c19b29499","x":0,"y":1}
+{"level":"info","message":"Moviment inserit","partidaId":"69de638a112d418c19b29499","x":-1,"y":1}
+{"level":"info","message":"Moviment inserit","partidaId":"69de638a112d418c19b29499","x":-2,"y":1}
+{"level":"info","message":"Moviment inserit","partidaId":"69de638a112d418c19b29499","x":-3,"y":1}
