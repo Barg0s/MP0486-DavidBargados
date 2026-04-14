@@ -33,6 +33,9 @@ function connect() {
             case "resultat":
                 console.log("Partida finalitzada. Distància:", data.distancia);
                 break;
+            case "invalid":
+                console.log(data.body);
+                break;
         }
     });
 
@@ -41,6 +44,7 @@ function connect() {
             tries++;
             console.log("Reintentant connexió");
             conectat = false;
+            pos = { x: 0, y: 0 };
             setTimeout(connect, 3000);
         } else {
             console.error("No es pot connectar al server");

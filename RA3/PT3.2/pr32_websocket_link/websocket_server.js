@@ -1,17 +1,20 @@
   import { WebSocketServer } from "ws";
-  import { MongoClient, ObjectId, Timestamp } from "mongodb";
+  import { MongoClient, ObjectId} from "mongodb";
   import winston from "winston";
   import LokiTransport from "winston-loki";
-import { parse } from "path";
+  import dotenv from 'dotenv';
+  dotenv.config();
+
+
   //SERVER
   const uri = process.env.MONGODB_URI || 'mongodb://root:password@localhost:27017/';
 
-  const RECONEXIO_MS = parseInt(process.env.RECONEXIO_MS || '3000', 10);
-  const WS_PORT      = parseInt(process.env.WS_PORT       || '8000');
-  const DB_NAME      = process.env.DB_NAME                || 'jocDB';
-  const COLLECTION   = process.env.COLLECTION_NAME        || 'moviments';
-  const LOKI_URL     = process.env.LOKI_URL               || 'http://localhost:3100';
-  const INACTIVITY_MS = parseInt(process.env.INACTIVITY_TIMEOUT_MS || '10000');
+  const RECONEXIO_MS = process.env.RECONEXIO_MS;
+  const WS_PORT      = process.env.WS_PORT;
+  const DB_NAME      = process.env.NOM_DB               
+  const COLLECTION   = process.env.NOM_COLLECIO;
+  const LOKI_URL     = process.env.LOKI_URL;
+  const INACTIVITY_MS = process.env.TEMPS_INACTIVITAT;
   const wss = new WebSocketServer({ port: WS_PORT });
 
   const logger = winston.createLogger({
@@ -28,7 +31,7 @@ import { parse } from "path";
   });
 
   // Connexió MongoDB
-
+  
   const client = new MongoClient(uri);
 
 
@@ -80,7 +83,12 @@ import { parse } from "path";
       try {
         const data = JSON.parse(message);
               if (!esMissatgeValid(data)) {
-              logger.warn("Missatge invàlid rebut", { data });
+              logger.warn("Missatge invàlid rebut: " + JSON.stringify(data));
+              ws.send(JSON.stringify({
+                type: "invalid",
+                body: "Aquest missatge es invalid"
+                }));
+              
 
         await collection.insertOne({
           type: "invalid",
@@ -98,17 +106,20 @@ import { parse } from "path";
 
 
         const movement = {
+          type: "moviment",
           partidaId,
-          x: data.posicio.x,
-          y: data.posicio.y,
+          posicio: {
+            x: data.posicio.x,
+            y: data.posicio.y
+          },
           direccio: data.direccio,
           timestamp: new Date()
-
         };
+
 
         await collection.insertOne(movement);
 
-        logger.info("Moviment inserit", {x: data.posicio.x,y: data.posicio.y,partidaId: partidaId.toString()});
+        logger.info("Moviment inserit x: " +  data.posicio.x + " y: "+  data.posicio.y + " partidaId: " + partidaId.toString());
 
         clearTimeout(timeout);
 
